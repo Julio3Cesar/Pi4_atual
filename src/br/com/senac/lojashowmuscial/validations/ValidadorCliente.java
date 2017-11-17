@@ -73,6 +73,11 @@ public class ValidadorCliente {
             if (cliente.getEndereco().getUf().length() != 2) {
                 throw new ClienteException("Digite 2 dígitos para UF.");
             }
+            for (int i = 0; i < cliente.getEndereco().getUf().length(); i++) {
+                if (Character.isDigit(cliente.getEndereco().getUf().charAt(i))) {
+                    throw new ClienteException("Apenas letras são aceitas.");
+                }
+            }
         }
         return cliente;
     }
