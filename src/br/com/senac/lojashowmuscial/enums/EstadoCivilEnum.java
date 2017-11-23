@@ -2,7 +2,7 @@ package br.com.senac.lojashowmuscial.enums;
 
 public enum EstadoCivilEnum {
     SELECIONE("SELECIONE"), SOLTEIRO("SOLTEIRO"), CASADO("CASADO"),
-    DIVORCIADO("DIVORCIADO"), VIUVO("VIUVO"), SEPARADO("SEPARADO");
+    DIVORCIADO("DIVORCIADO"), VIÚVO("VIÚVO"), SEPARADO("SEPARADO");
 
     private final String name;
 

@@ -35,6 +35,9 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
     public ConsultaProdutoUI() {
         service = ProdutoServiceImpl.getInstance();
         initComponents();
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
+        table.getColumnModel().getColumn(0).setWidth(0);
     }
 
     public ActionEvent getUltimoEvt() {
@@ -244,9 +247,7 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
             this.ultimaPesquisa = txtPesquisa.getText();
             Object[] linha = new Object[8];
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-            for (int i = 0; i < model.getRowCount(); i++) {
-                model.removeRow(i);
-            }
+            model.setRowCount(0);
             if (produtos.isEmpty()) {
                 JOptionPane.showMessageDialog(rootPane, "Pesquisa não trouxe resultados.");
             } else {
