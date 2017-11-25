@@ -5,6 +5,7 @@ public class ProdutoEntity {
     private Integer id_desc_produto;
     private Integer id_prod;
     private Integer id_marca;
+    private String codBarras;
     private String cor_prd;
     private String modelo_prd;
     private Integer estoque_prd;
@@ -14,7 +15,7 @@ public class ProdutoEntity {
     public ProdutoEntity() {
     }
 
-    public ProdutoEntity(Integer IdDescricao, Integer idProd, Integer idMarca, String cor, String modelo, Integer estoque, Double preco) {
+    public ProdutoEntity(Integer IdDescricao, Integer idProd, Integer idMarca, String cor, String modelo, Integer estoque, Double preco, String codBarras) {
         this.id_desc_produto = IdDescricao;
         this.id_marca = idMarca;
         this.id_prod = idProd;
@@ -22,24 +23,27 @@ public class ProdutoEntity {
         this.modelo_prd = modelo;
         this.estoque_prd = estoque;
         this.preco_prd = preco;
+        this.codBarras = codBarras;
         this.enable = true;
     }
 
-    public ProdutoEntity(Integer idProd, Integer idMarca, String cor, String modelo, Integer estoque, Double preco) {
+    public ProdutoEntity(Integer idProd, Integer idMarca, String cor, String modelo, Integer estoque, Double preco, String codBarras) {
         this.id_marca = idMarca;
         this.id_prod = idProd;
         this.cor_prd = cor;
         this.modelo_prd = modelo;
         this.estoque_prd = estoque;
         this.preco_prd = preco;
+        this.codBarras = codBarras;
         this.enable = true;
     }
 
-    public ProdutoEntity(String cor, String modelo, Integer estoque, Double preco, Boolean enable) {
+    public ProdutoEntity(String cor, String modelo, Integer estoque, Double preco, Boolean enable, String codBarras) {
         this.cor_prd = cor;
         this.modelo_prd = modelo;
         this.estoque_prd = estoque;
         this.preco_prd = preco;
+        this.codBarras = codBarras;
         this.enable = enable;
     }
 
@@ -107,4 +111,11 @@ public class ProdutoEntity {
         this.enable = enable;
     }
 
+    public String getCodBarras() {
+        return codBarras;
+    }
+
+    public void setCodBarras(String codBarras) {
+        this.codBarras = codBarras;
+    }
 }

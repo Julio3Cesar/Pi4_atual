@@ -7,16 +7,18 @@ import br.com.senac.lojashowmuscial.enums.TipoInstrumentoEnum;
 public class ProdutoDTO {
 
     private Integer idProduto;
+    private String codBarras;
     private String nome;
     private TipoInstrumentoEnum tipo;
     private MarcaDTO marca;
     private DescricaoDTO descricao;
 
     public ProdutoDTO(Integer idProduto, String nome, TipoInstrumentoEnum tipo,
-            MarcaProdutoEntity marca, ProdutoEntity descricao) {
+            MarcaProdutoEntity marca, ProdutoEntity descricao, String codBarras) {
         this.idProduto = idProduto;
         this.nome = nome;
         this.tipo = tipo;
+        this.codBarras = codBarras;
         this.marca = new MarcaDTO(marca.getIdMarca(), marca.getMarca());
         this.descricao = new DescricaoDTO(descricao.getIdDescricao(), descricao.getCor(),
                 descricao.getModelo(), descricao.getEstoque(), descricao.getPreco(),
@@ -24,10 +26,11 @@ public class ProdutoDTO {
     }
 
     public ProdutoDTO(String nome, String marca, TipoInstrumentoEnum tipo,
-            String cor, String modelo, Integer estoque, Double preco) {
+            String cor, String modelo, Integer estoque, Double preco, String codBarras) {
         this.nome = nome;
         this.tipo = tipo;
         this.marca = new MarcaDTO(marca);
+        this.codBarras = codBarras;
         this.descricao = new DescricaoDTO(cor, modelo, estoque, preco, true);
 
     }
@@ -72,4 +75,11 @@ public class ProdutoDTO {
         this.descricao = descricao;
     }
 
+    public String getCodBarras() {
+        return codBarras;
+    }
+
+    public void setCodBarras(String codBarras) {
+        this.codBarras = codBarras;
+    }
 }

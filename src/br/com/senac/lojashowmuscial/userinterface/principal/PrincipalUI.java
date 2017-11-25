@@ -180,7 +180,7 @@ public class PrincipalUI extends javax.swing.JFrame {
 
     private void menuConsulProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConsulProdutoActionPerformed
         if (consultarProduto == null || !consultarProduto.isDisplayable()) {
-            consultarProduto = new ConsultaProdutoUI();
+            consultarProduto = new ConsultaProdutoUI(false);
             consultarProduto.pack();
             consultarProduto.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             consultarProduto.setLocationRelativeTo(null);

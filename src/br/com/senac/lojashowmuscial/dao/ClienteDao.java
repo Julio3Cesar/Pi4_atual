@@ -29,5 +29,6 @@ public interface ClienteDao {
     List<ClienteDTO> search(String nome) throws SQLException;
 
     void update(ClienteEntity c, EnderecoEntity e, ContatoEntity co) throws SQLException;
-    
+
+    ClienteDTO getT(String cpf) throws SQLException;
 }

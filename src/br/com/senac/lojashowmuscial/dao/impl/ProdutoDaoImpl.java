@@ -23,7 +23,6 @@ public class ProdutoDaoImpl implements ProdutoDao {
     private ProdutoEntity descricao;
     private MarcaProdutoEntity marca;
     private TipoProdutoEntity produto;
-    private List<ProdutoEntity> descricoes;
     private List<ProdutoDTO> prodsDTO;
     private ProdutoDTO prodDTO;
 
@@ -43,10 +42,10 @@ public class ProdutoDaoImpl implements ProdutoDao {
                 + " AND ID_MARCA_PRD=(SELECT ID_MARCA_PRD FROM marca_produto WHERE MARCA_PRD=?) AND MODELO_PRD=?) "
                 + "BEGIN "
                 + "INSERT INTO PRODUTO(ID_MARCA_PRD, ID_TIPO_PRD,"
-                + "MODELO_PRD, COR_PRD, PRECO_PRD, QTD_EM_ESTOQUE_PRD, ENABLE) "
+                + "MODELO_PRD, COR_PRD, PRECO_PRD, QTD_EM_ESTOQUE_PRD, COD_BARRAS, ENABLE) "
                 + "VALUES((SELECT ID_MARCA_PRD FROM marca_produto WHERE MARCA_PRD=?),"
                 + "(SELECT ID_TIPO_PRD FROM TIPO_PRODUTO WHERE TIPO_PRD=? AND NOME_PRD=?), "
-                + "?, ?, ?, ?, ?); "
+                + "?, ?, ?, ?, ?, ?); "
                 + "END; "
                 + "END;";
 
@@ -75,7 +74,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             pst.setString(15, d.getCor());
             pst.setDouble(16, d.getPreco());
             pst.setInt(17, d.getEstoque());
-            pst.setBoolean(18, true);
+            pst.setString(18, d.getCodBarras());
+            pst.setBoolean(19, true);
 
             pst.execute();
         } finally {
@@ -86,9 +86,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     @Override
     public List<ProdutoDTO> listAll() throws SQLException {
         this.prodsDTO = new ArrayList<>();
-        String sql = "SELECT D.ID_TIPO_PRD, D.ID_MARCA_PRD, T.NOME_PRD, T.TIPO_PRD, M.MARCA_PRD, "
-                + "D.ID_DESC_PRD, D.MODELO_PRD, D.COR_PRD, D.QTD_EM_ESTOQUE_PRD, "
-                + "D.PRECO_PRD, D.ENABLE FROM TIPO_PRODUTO AS T, PRODUTO AS D, "
+        String sql = "SELECT * FROM TIPO_PRODUTO AS T, PRODUTO AS D, "
                 + "marca_produto AS M WHERE enable=? AND T.ID_TIPO_PRD=D.ID_TIPO_PRD AND M.ID_MARCA_PRD=D.ID_MARCA_PRD";
 
         try {
@@ -100,19 +98,17 @@ public class ProdutoDaoImpl implements ProdutoDao {
             while (rs.next()) {
                 this.descricao = new ProdutoEntity();
                 descricao.setIdDescricao(rs.getInt("ID_DESC_PRD"));
-                descricao.setIdMarca(rs.getInt("ID_MARCA_PRD"));
+                this.descricao.setCodBarras(rs.getString("COD_BARRAS"));
                 descricao.setModelo(rs.getString("MODELO_PRD"));
                 descricao.setCor(rs.getString("COR_PRD"));
                 descricao.setEstoque(rs.getInt("QTD_EM_ESTOQUE_PRD"));
                 descricao.setPreco(rs.getDouble("PRECO_PRD"));
                 descricao.setEnable(rs.getBoolean("ENABLE"));
 
-                this.produto = new TipoProdutoEntity(rs.getInt("ID_TIPO_PRD"),
-                        rs.getString("NOME_PRD"),
+                this.produto = new TipoProdutoEntity(rs.getString("NOME_PRD"),
                         TipoInstrumentoEnum.valueOf(rs.getString("TIPO_PRD")));
 
-                this.marca = new MarcaProdutoEntity(rs.getInt("ID_MARCA_PRD"),
-                        rs.getString("MARCA_PRD"));
+                this.marca = new MarcaProdutoEntity(rs.getString("MARCA_PRD"));
 
                 this.prodDTO = Utils.toProdutoDTO(descricao, marca, produto);
                 this.prodsDTO.add(prodDTO);
@@ -127,9 +123,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
 
     @Override
     public ProdutoDTO getT(Integer id) throws SQLException {
-        String sql = "SELECT D.ID_TIPO_PRD, D.ID_MARCA_PRD, T.NOME_PRD, T.TIPO_PRD, M.MARCA_PRD, "
-                + "D.ID_DESC_PRD, D.MODELO_PRD, D.COR_PRD, D.QTD_EM_ESTOQUE_PRD, "
-                + "D.PRECO_PRD, D.ENABLE FROM  TIPO_PRODUTO AS T, PRODUTO AS D,"
+        String sql = "SELECT * FROM  TIPO_PRODUTO AS T, PRODUTO AS D,"
                 + " marca_produto AS M"
                 + " WHERE D.ID_DESC_PRD=? AND D.ID_MARCA_PRD=M.ID_MARCA_PRD "
                 + "AND D.ID_TIPO_PRD=T.ID_TIPO_PRD";
@@ -143,19 +137,17 @@ public class ProdutoDaoImpl implements ProdutoDao {
 
             this.descricao = new ProdutoEntity();
             this.descricao.setIdDescricao(rs.getInt("ID_DESC_PRD"));
-            this.descricao.setIdMarca(rs.getInt("ID_MARCA_PRD"));
+            this.descricao.setCodBarras(rs.getString("COD_BARRAS"));
             this.descricao.setModelo(rs.getString("MODELO_PRD"));
             this.descricao.setCor(rs.getString("COR_PRD"));
             this.descricao.setEstoque(rs.getInt("QTD_EM_ESTOQUE_PRD"));
             this.descricao.setPreco(rs.getDouble("PRECO_PRD"));
             this.descricao.setEnable(rs.getBoolean("ENABLE"));
 
-            this.produto = new TipoProdutoEntity(rs.getInt("ID_TIPO_PRD"),
-                    rs.getString("NOME_PRD"),
+            this.produto = new TipoProdutoEntity(rs.getString("NOME_PRD"),
                     TipoInstrumentoEnum.valueOf(rs.getString("TIPO_PRD")));
 
-            this.marca = new MarcaProdutoEntity(rs.getInt("ID_MARCA_PRD"),
-                    rs.getString("MARCA_PRD"));
+            this.marca = new MarcaProdutoEntity(rs.getString("MARCA_PRD"));
 
             this.prodDTO = Utils.toProdutoDTO(descricao, marca, produto);
 
@@ -182,7 +174,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
                 + "ID_TIPO_PRD=(SELECT ID_TIPO_PRD FROM TIPO_PRODUTO WHERE TIPO_PRD=? AND NOME_PRD=?), "
                 + "ID_MARCA_PRD=(SELECT ID_MARCA_PRD FROM marca_produto WHERE MARCA_PRD=?), "
                 + "MODELO_PRD=?, COR_PRD=?, PRECO_PRD=?, "
-                + "QTD_EM_ESTOQUE_PRD=? WHERE ID_DESC_PRD=? "
+                + "QTD_EM_ESTOQUE_PRD=?, COD_BARRAS=? WHERE ID_DESC_PRD=? "
                 + "END;";
 
         try {
@@ -206,7 +198,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
             pst.setString(11, d.getCor());
             pst.setDouble(12, d.getPreco());
             pst.setInt(13, d.getEstoque());
-            pst.setInt(14, d.getIdDescricao());
+            pst.setString(14, d.getCodBarras());
+            pst.setInt(15, d.getIdDescricao());
 
             pst.execute();
         } finally {
@@ -234,9 +227,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     @Override
     public List<ProdutoDTO> search(String modelo) throws SQLException {
         this.prodsDTO = new ArrayList<>();
-        String sql = "SELECT D.ID_TIPO_PRD, D.ID_MARCA_PRD, T.NOME_PRD, T.TIPO_PRD, M.MARCA_PRD, "
-                + "D.ID_DESC_PRD, D.MODELO_PRD, D.COR_PRD, D.QTD_EM_ESTOQUE_PRD, "
-                + "D.PRECO_PRD, D.ENABLE FROM TIPO_PRODUTO AS T, PRODUTO AS D,"
+        String sql = "SELECT * FROM TIPO_PRODUTO AS T, PRODUTO AS D,"
                 + " marca_produto AS M WHERE (UPPER(D.MODELO_PRD) LIKE UPPER(?)) "
                 + "AND enable=? AND D.ID_MARCA_PRD=M.ID_MARCA_PRD AND D.ID_TIPO_PRD=T.ID_TIPO_PRD";
 
@@ -250,13 +241,13 @@ public class ProdutoDaoImpl implements ProdutoDao {
 
             while (rs.next()) {
                 this.descricao = new ProdutoEntity();
-                descricao.setIdDescricao(rs.getInt("ID_DESC_PRD"));
-                descricao.setIdMarca(rs.getInt("ID_MARCA_PRD"));
-                descricao.setModelo(rs.getString("MODELO_PRD"));
-                descricao.setCor(rs.getString("COR_PRD"));
-                descricao.setEstoque(rs.getInt("QTD_EM_ESTOQUE_PRD"));
-                descricao.setPreco(rs.getDouble("PRECO_PRD"));
-                descricao.setEnable(rs.getBoolean("ENABLE"));
+                this.descricao.setIdDescricao(rs.getInt("ID_DESC_PRD"));
+                this.descricao.setCodBarras(rs.getString("COD_BARRAS"));
+                this.descricao.setModelo(rs.getString("MODELO_PRD"));
+                this.descricao.setCor(rs.getString("COR_PRD"));
+                this.descricao.setEstoque(rs.getInt("QTD_EM_ESTOQUE_PRD"));
+                this.descricao.setPreco(rs.getDouble("PRECO_PRD"));
+                this.descricao.setEnable(rs.getBoolean("ENABLE"));
 
                 this.produto = new TipoProdutoEntity(rs.getInt("ID_TIPO_PRD"),
                         rs.getString("NOME_PRD"),
@@ -272,5 +263,42 @@ public class ProdutoDaoImpl implements ProdutoDao {
             ConnectionFactory.closeConnection(conn, pst, rs);
         }
         return this.prodsDTO;
+    }
+
+    @Override
+    public ProdutoDTO getT(String codBarras) throws SQLException {
+        String sql = "SELECT * FROM  TIPO_PRODUTO AS T, PRODUTO AS D,"
+                + " marca_produto AS M"
+                + " WHERE D.COD_BARRAS=? AND D.ID_MARCA_PRD=M.ID_MARCA_PRD "
+                + "AND D.ID_TIPO_PRD=T.ID_TIPO_PRD";
+
+        try {
+            this.conn = ConnectionFactory.getConnection();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, codBarras);
+            rs = pst.executeQuery();
+            rs.next();
+
+            this.descricao = new ProdutoEntity();
+            this.descricao.setIdDescricao(rs.getInt("ID_DESC_PRD"));
+            this.descricao.setCodBarras(rs.getString("COD_BARRAS"));
+            this.descricao.setModelo(rs.getString("MODELO_PRD"));
+            this.descricao.setCor(rs.getString("COR_PRD"));
+            this.descricao.setEstoque(rs.getInt("QTD_EM_ESTOQUE_PRD"));
+            this.descricao.setPreco(rs.getDouble("PRECO_PRD"));
+            this.descricao.setEnable(rs.getBoolean("ENABLE"));
+
+            this.produto = new TipoProdutoEntity(rs.getString("NOME_PRD"),
+                    TipoInstrumentoEnum.valueOf(rs.getString("TIPO_PRD")));
+
+            this.marca = new MarcaProdutoEntity(rs.getString("MARCA_PRD"));
+
+            this.prodDTO = Utils.toProdutoDTO(descricao, marca, produto);
+
+        } finally {
+            ConnectionFactory.closeConnection(conn, pst, rs);
+        }
+
+        return this.prodDTO;
     }
 }

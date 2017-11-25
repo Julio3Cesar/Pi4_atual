@@ -4,6 +4,7 @@ import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
 import br.com.senac.lojashowmuscial.service.ProdutoService;
 import br.com.senac.lojashowmuscial.service.impl.ProdutoServiceImpl;
+import br.com.senac.lojashowmuscial.userinterface.venda.VendasUI;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,10 +32,15 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
 
     /**
      * Creates new form ConsultaProduto
+     *
+     * @param isVendas
      */
-    public ConsultaProdutoUI() {
+    public ConsultaProdutoUI(Boolean isVendas) {
         service = ProdutoServiceImpl.getInstance();
         initComponents();
+        btnAlterar.setVisible(!isVendas);
+        btnExcluir.setVisible(!isVendas);
+        btnSelecionar.setVisible(isVendas);
         table.getColumnModel().getColumn(0).setMinWidth(0);
         table.getColumnModel().getColumn(0).setMaxWidth(0);
         table.getColumnModel().getColumn(0).setWidth(0);
@@ -76,6 +82,7 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
         btnFechar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
+        btnSelecionar = new javax.swing.JButton();
 
         jButton2.setText("jButton2");
 
@@ -145,6 +152,13 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
             }
         });
 
+        btnSelecionar.setText("Selecionar");
+        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -162,6 +176,8 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnFechar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSelecionar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAlterar)))
@@ -180,7 +196,8 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFechar)
                     .addComponent(btnExcluir)
-                    .addComponent(btnAlterar)))
+                    .addComponent(btnAlterar)
+                    .addComponent(btnSelecionar)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -323,6 +340,31 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+        try {
+            int resposta = JOptionPane.YES_OPTION;
+            do {
+                final int row = table.getSelectedRow();
+                if (row >= 0) {
+                    Integer id = (Integer) table.getValueAt(row, 0);
+                    ProdutoDTO produto = service.getT(id);
+                    VendasUI.carrinho.add(produto);
+                    resposta = JOptionPane.showConfirmDialog(rootPane,
+                            "Quer Adicionar outro produto?",
+                            "Confirmar Adição", JOptionPane.YES_NO_OPTION);
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Para Alterar, selecione um produto.");
+                }
+            } while (resposta == JOptionPane.YES_OPTION);
+            this.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(rootPane, "Não é possível "
+                    + "exibir os detalhes deste cliente.\n",
+                    "Erro ao abrir detalhe", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSelecionarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,7 +396,7 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultaProdutoUI().setVisible(true);
+                new ConsultaProdutoUI(true).setVisible(true);
             }
         });
     }
@@ -364,6 +406,7 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnPesquisa;
+    private javax.swing.JButton btnSelecionar;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

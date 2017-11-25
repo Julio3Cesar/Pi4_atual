@@ -88,8 +88,6 @@ public class ClienteDaoImpl implements ClienteDao {
             while (rs.next()) {
                 ClienteEntity c = new ClienteEntity();
                 c.setId(rs.getInt("ID_CLIENTE"));
-//                c.setIdEndereco(rs.getInt("ID_ENDERECO_CLIENTE"));
-//                c.setIdContato(rs.getInt("ID_CONTATO_CLIENTE"));
                 c.setNome(rs.getString("NOME_CLIENTE"));
                 c.setCpf(rs.getString("CPF_CLIENTE"));
                 c.setRg(rs.getString("RG_CLIENTE"));
@@ -245,8 +243,6 @@ public class ClienteDaoImpl implements ClienteDao {
             while (rs.next()) {
                 ClienteEntity c = new ClienteEntity();
                 c.setId(rs.getInt("ID_CLIENTE"));
-//                c.setIdEndereco(rs.getInt("C.ID_ENDERECO_CLIENTE"));
-//                c.setIdContato(rs.getInt("C.ID_CONTATO_CLIENTE"));
                 c.setNome(rs.getString("NOME_CLIENTE"));
                 c.setCpf(rs.getString("CPF_CLIENTE"));
                 c.setRg(rs.getString("RG_CLIENTE"));
@@ -271,6 +267,54 @@ public class ClienteDaoImpl implements ClienteDao {
         } finally {
             ConnectionFactory.closeConnection(conn, pst, rs);
         }
+        return resp;
+    }
+    
+    @Override
+    public ClienteDTO getT(String cpf) throws SQLException {
+
+        ClienteDTO resp;
+        String sql = "SELECT * FROM ENDERECO_CLIENTE AS E, CONTATO_CLIENTE AS CO, "
+                + "CLIENTE AS C WHERE C.ID_ENDERECO_CLIENTE=E.ID_ENDERECO_CLIENTE AND "
+                + "C.ID_CONTATO_CLIENTE=CO.ID_CONTATO_CLIENTE AND CPF_CLIENTE=? AND ENABLE=?";
+
+        try {
+            this.conn = ConnectionFactory.getConnection();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, cpf);
+            pst.setBoolean(2, true);
+            rs = pst.executeQuery();
+
+            rs.next();
+            ClienteEntity c = new ClienteEntity();
+            c.setId(rs.getInt("ID_CLIENTE"));
+            c.setIdEndereco(rs.getInt("ID_ENDERECO_CLIENTE"));
+            c.setIdContato(rs.getInt("ID_CONTATO_CLIENTE"));
+            c.setNome(rs.getString("NOME_CLIENTE"));
+            c.setCpf(rs.getString("CPF_CLIENTE"));
+            c.setRg(rs.getString("RG_CLIENTE"));
+            c.setSexo(SexoEnum.valueOf(rs.getString("SEXO_CLIENTE")));
+            c.setEstadoCivil(EstadoCivilEnum.valueOf(rs.getString("ESTADO_CIVIL_CLIENTE")));
+            c.setDataDeNascimento(new Date(rs.getTimestamp("DT_NASCIMENTO_CLIENTE").getTime()));
+            c.setEnable(rs.getBoolean("ENABLE"));
+
+            EnderecoEntity e = new EnderecoEntity();
+            e.setBairro(rs.getString("BAIRRO"));
+            e.setCep(rs.getString("CEP"));
+            e.setLogradouro(rs.getString("LOGRADOURO"));
+            e.setNumero(rs.getString("NUMERO"));
+            e.setCidade(rs.getString("CIDADE"));
+            e.setUf(rs.getString("UF"));
+
+            ContatoEntity co = new ContatoEntity(rs.getString("TELEFONE"),
+                    rs.getString("CELULAR"), rs.getString("EMAIL"));
+
+            resp = Utils.toClienteDTO(c, e, co);
+
+        } finally {
+            ConnectionFactory.closeConnection(conn, pst, rs);
+        }
+
         return resp;
     }
 }

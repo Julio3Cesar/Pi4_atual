@@ -27,7 +27,7 @@ public class Utils {
     }
 
     public static ClienteEntity toClienteEntity(ClienteDTO c) {
-        return new ClienteEntity(c.getId(),c.getNome(), c.getCpf(), c.getRg(), c.getSexo(), c.getEstadoCivil(), c.getDataDeNascimento());
+        return new ClienteEntity(c.getId(), c.getNome(), c.getCpf(), c.getRg(), c.getSexo(), c.getEstadoCivil(), c.getDataDeNascimento());
     }
 
     public static EnderecoEntity toEnderecoEntity(ClienteDTO c) {
@@ -44,7 +44,7 @@ public class Utils {
     //PRODUTO
     public static ProdutoDTO toProdutoDTO(ProdutoEntity descE, MarcaProdutoEntity marcE, TipoProdutoEntity prodE) {
         return new ProdutoDTO(prodE.getIdProduto(), prodE.getNome(), prodE.getTipo(),
-                marcE, descE);
+                marcE, descE, descE.getCodBarras());
     }
 
     public static MarcaProdutoEntity toMarcaEntity(ProdutoDTO p) {
@@ -59,7 +59,7 @@ public class Utils {
         return new ProdutoEntity(p.getDescricao().getIdDescricao(), p.getIdProduto(),
                 p.getMarca().getIdMarca(), p.getDescricao().getCor(),
                 p.getDescricao().getModelo(), p.getDescricao().getEstoque(),
-                p.getDescricao().getPreco());
+                p.getDescricao().getPreco(), p.getCodBarras());
 
     }
 

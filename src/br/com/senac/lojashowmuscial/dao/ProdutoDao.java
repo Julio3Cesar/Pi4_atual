@@ -29,5 +29,6 @@ public interface ProdutoDao {
     List<ProdutoDTO> search(String modelo) throws SQLException;
 
     void update(ProdutoEntity d, MarcaProdutoEntity m, TipoProdutoEntity p) throws SQLException;
-    
+
+    ProdutoDTO getT(String codBarras) throws SQLException;
 }
