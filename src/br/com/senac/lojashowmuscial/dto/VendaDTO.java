@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 public class VendaDTO {
-
+    
+    
     private Date dataVenda;
     private ClienteDTO cliente;
     private List<ProdutoQtd> produtosQtd;

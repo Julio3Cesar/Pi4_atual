@@ -1,30 +1,41 @@
 package br.com.senac.lojashowmuscial.service.impl;
 
+import br.com.senac.lojashowmuscial.bean.ProdutoQtd;
+import br.com.senac.lojashowmuscial.dao.ItemProdutoDao;
+import br.com.senac.lojashowmuscial.service.VendaService;
+import br.com.senac.lojashowmuscial.dao.VendaDao;
+import br.com.senac.lojashowmuscial.dao.impl.ItemProdutoDaoImpl;
 import br.com.senac.lojashowmuscial.dao.impl.VendaDaoImpl;
 import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
+import br.com.senac.lojashowmuscial.dto.VendaDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
+import br.com.senac.lojashowmuscial.exception.VendaException;
 import br.com.senac.lojashowmuscial.service.ClienteService;
 import br.com.senac.lojashowmuscial.service.ProdutoService;
+import br.com.senac.lojashowmuscial.util.Utils;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class VendaServiceImpl {
+public class VendaServiceImpl implements VendaService {
 
+    private static VendaService service;
     private final ProdutoService produtoService;
     private final ClienteService clienteService;
-    private static VendaServiceImpl service;
-    private VendaDaoImpl dao;
+    private final VendaDao daoVenda;
+    private final ItemProdutoDao daoItemProduto;
 
     private VendaServiceImpl() throws SQLException {
         this.produtoService = ProdutoServiceImpl.getInstance();
         this.clienteService = ClienteServiceImpl.getInstance();
+        this.daoVenda = new VendaDaoImpl();
+        this.daoItemProduto = new ItemProdutoDaoImpl();
     }
 
-    public static VendaServiceImpl getInstance() {
+    public static VendaService getInstance() {
         if (VendaServiceImpl.service == null) {
             try {
                 VendaServiceImpl.service = new VendaServiceImpl();
@@ -38,12 +49,28 @@ public class VendaServiceImpl {
         return service;
     }
 
+    @Override
     public ClienteDTO getCliente(String cpf) throws ClienteException {
         return this.clienteService.getT(cpf);
     }
 
+    @Override
     public ProdutoDTO getProduto(String codBarras) throws ProdutoException {
         return this.produtoService.getT(codBarras);
     }
 
+    @Override
+    public void insert(VendaDTO venda) throws VendaException {
+        try {
+            daoVenda.insert(Utils.toVendaEntity(venda));
+            for (ProdutoQtd p : venda.getProdutosQtd()) {
+                daoItemProduto.insert(Utils.toVendaEntity(daoVenda.getLastId(), p));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new VendaException("Algo deu errado entre em contato "
+                    + "com os desenvolvedores.");
+        }
+    }
 }

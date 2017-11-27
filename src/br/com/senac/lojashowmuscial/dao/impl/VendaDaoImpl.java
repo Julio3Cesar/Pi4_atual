@@ -1,72 +1,61 @@
 package br.com.senac.lojashowmuscial.dao.impl;
 
-import br.com.senac.lojashowmuscial.entity.ItensVendaEntity;
+import br.com.senac.lojashowmuscial.dao.VendaDao;
 import br.com.senac.lojashowmuscial.entity.VendaEntity;
 import br.com.senac.lojashowmuscial.factory.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
-public class VendaDaoImpl {
+public class VendaDaoImpl implements VendaDao {
 
     private Connection conn;
     private PreparedStatement pst;
     private ResultSet rs;
 
-    public void insert(VendaEntity v, ItensVendaEntity iV) throws SQLException {
+    @Override
+    public void insert(VendaEntity v) throws SQLException {
 
-        String sql = "BEGIN "
-                + "IF NOT EXISTS (SELECT ID_TIPO_PRD FROM TIPO_PRODUTO WHERE TIPO_PRD=? AND NOME_PRD=?)"
-                + "BEGIN "
-                + "INSERT INTO TIPO_PRODUTO (TIPO_PRD, NOME_PRD) VALUES(?,?); "
-                + "END;"
-                + "IF NOT EXISTS (SELECT ID_MARCA_PRD FROM marca_produto WHERE MARCA_PRD=?) "
-                + "BEGIN "
-                + "INSERT INTO marca_produto (MARCA_PRD) VALUES(?); "
-                + "END;"
-                + "IF NOT EXISTS (SELECT ID_TIPO_PRD FROM PRODUTO WHERE ID_TIPO_PRD=(SELECT ID_TIPO_PRD FROM TIPO_PRODUTO WHERE TIPO_PRD=? AND NOME_PRD=?) "
-                + " AND ID_MARCA_PRD=(SELECT ID_MARCA_PRD FROM marca_produto WHERE MARCA_PRD=?) AND MODELO_PRD=?) "
-                + "BEGIN "
-                + "INSERT INTO PRODUTO(ID_MARCA_PRD, ID_TIPO_PRD,"
-                + "MODELO_PRD, COR_PRD, PRECO_PRD, QTD_EM_ESTOQUE_PRD, COD_BARRAS, ENABLE) "
-                + "VALUES((SELECT ID_MARCA_PRD FROM marca_produto WHERE MARCA_PRD=?),"
-                + "(SELECT ID_TIPO_PRD FROM TIPO_PRODUTO WHERE TIPO_PRD=? AND NOME_PRD=?), "
-                + "?, ?, ?, ?, ?, ?); "
-                + "END; "
-                + "END;";
+        String sql = "INSERT INTO VENDA (ID_CLIENTE, TIPO_PAGAMENTO, PARCELAS, "
+                + "PRECO_TOTAL_VENDA, DATA_DA_VENDA) VALUES "
+                + "(?, ?, ?, ?, ?)";
 
         try {
             this.conn = ConnectionFactory.getConnection();
             pst = conn.prepareStatement(sql);
 
-            pst.setString(1, p.getTipo().getName());
-            pst.setString(2, p.getNome());
-            pst.setString(3, p.getTipo().getName());
-            pst.setString(4, p.getNome());
-
-            pst.setString(5, m.getMarca());
-            pst.setString(6, m.getMarca());
-
-            pst.setString(7, p.getTipo().getName());
-            pst.setString(8, p.getNome());
-
-            pst.setString(9, m.getMarca());
-            pst.setString(10, d.getModelo());
-
-            pst.setString(11, m.getMarca());
-            pst.setString(12, p.getTipo().getName());
-            pst.setString(13, p.getNome());
-            pst.setString(14, d.getModelo());
-            pst.setString(15, d.getCor());
-            pst.setDouble(16, d.getPreco());
-            pst.setInt(17, d.getEstoque());
-            pst.setString(18, d.getCodBarras());
-            pst.setBoolean(19, true);
+            pst.setInt(1, v.getIdCliente());
+            pst.setString(2, v.getTipoPagamento().getName());
+            pst.setInt(3, v.getParcelas());
+            pst.setDouble(4, v.getPrecoTotalVenda());
+            pst.setTimestamp(4, new Timestamp(v.getDataVenda().getTime()));
 
             pst.execute();
         } finally {
             ConnectionFactory.closeConnection(conn, pst);
         }
     }
+
+    @Override
+    public Integer getLastId() throws SQLException {
+        Integer resp;
+        String sql = "SELECT MAX(ID_VENDA) FROM VENDA";
+
+        try {
+            this.conn = ConnectionFactory.getConnection();
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            rs.next();
+            resp = rs.getInt("ID_VENDA");
+
+        } finally {
+            ConnectionFactory.closeConnection(conn, pst, rs);
+        }
+
+        return resp;
+    }
+
 }

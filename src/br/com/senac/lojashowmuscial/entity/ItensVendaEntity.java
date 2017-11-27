@@ -7,6 +7,13 @@ public class ItensVendaEntity {
     private Integer quantidade;
     private Double precoOriginalProduto;
 
+    public ItensVendaEntity(Integer idVenda, Integer idDescProd, Integer quantidade, Double precoOriginalProduto) {
+        this.idVenda = idVenda;
+        this.idDescProd = idDescProd;
+        this.quantidade = quantidade;
+        this.precoOriginalProduto = precoOriginalProduto;
+    }
+
     public Integer getIdVenda() {
         return idVenda;
     }

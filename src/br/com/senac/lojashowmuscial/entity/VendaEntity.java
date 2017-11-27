@@ -12,6 +12,14 @@ public class VendaEntity {
     private Double precoTotalVenda;
     private Date dataVenda;
 
+    public VendaEntity(Integer idCliente, TipoPagamentoEnum tipoPagamento, Integer parcelas, Double precoTotalVenda, Date dataVenda) {
+        this.idCliente = idCliente;
+        this.tipoPagamento = tipoPagamento;
+        this.parcelas = parcelas;
+        this.precoTotalVenda = precoTotalVenda;
+        this.dataVenda = dataVenda;
+    }
+    
     public Integer getIdVenda() {
         return idVenda;
     }

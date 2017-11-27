@@ -1,15 +1,20 @@
 package br.com.senac.lojashowmuscial.util;
 
+import br.com.senac.lojashowmuscial.bean.ProdutoQtd;
 import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.dto.ContatoDTO;
 import br.com.senac.lojashowmuscial.dto.EnderecoDTO;
 import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
+import br.com.senac.lojashowmuscial.dto.VendaDTO;
 import br.com.senac.lojashowmuscial.entity.ClienteEntity;
 import br.com.senac.lojashowmuscial.entity.ContatoEntity;
 import br.com.senac.lojashowmuscial.entity.EnderecoEntity;
+import br.com.senac.lojashowmuscial.entity.ItensVendaEntity;
 import br.com.senac.lojashowmuscial.entity.ProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.MarcaProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.TipoProdutoEntity;
+import br.com.senac.lojashowmuscial.entity.VendaEntity;
+import br.com.senac.lojashowmuscial.enums.TipoPagamentoEnum;
 
 public class Utils {
 
@@ -61,6 +66,16 @@ public class Utils {
                 p.getDescricao().getModelo(), p.getDescricao().getEstoque(),
                 p.getDescricao().getPreco(), p.getCodBarras());
 
+    }
+
+    public static VendaEntity toVendaEntity(VendaDTO venda) {
+        return new VendaEntity(venda.getCliente().getId(), venda.getTipoPagamento(),
+                venda.getParcelas(), venda.getPrecoTotalVenda(), venda.getDataVenda());
+    }
+
+    public static ItensVendaEntity toVendaEntity(Integer id, ProdutoQtd p) {
+        return new ItensVendaEntity(id, p.getProduto().getIdProduto(), p.getQuantidade(),
+                p.getProduto().getDescricao().getPreco());
     }
 
 }
