@@ -75,6 +75,18 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    public ClienteDTO getT(String cpf) throws ClienteException {
+        try {
+            return daoCliente.getT(cpf);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ClienteException("Algo deu errado entre em contato "
+                    + "com os desenvolvedores.");
+        }
+    }
+
+    @Override
     public List<ClienteDTO> listAll() throws ClienteException {
         try {
             return daoCliente.listAll();

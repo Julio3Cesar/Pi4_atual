@@ -74,6 +74,18 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public ProdutoDTO getT(String codBarras) throws ProdutoException {
+        try {
+            return daoProduto.getT(codBarras);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ProdutoException("Algo deu errado entre em contato "
+                    + "com os desenvolvedores.");
+        }
+    }
+
+    @Override
     public List<ProdutoDTO> listAll() throws ProdutoException {
         try {
             return daoProduto.listAll();

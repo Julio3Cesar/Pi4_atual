@@ -19,6 +19,8 @@ public interface ProdutoService {
 
     ProdutoDTO getT(Integer id) throws ProdutoException;
 
+    ProdutoDTO getT(String codBarras) throws ProdutoException;
+
     void insert(ProdutoDTO p) throws ProdutoException;
 
     List<ProdutoDTO> listAll() throws ProdutoException;
@@ -26,5 +28,5 @@ public interface ProdutoService {
     List<ProdutoDTO> search(String modelo) throws ProdutoException;
 
     void update(ProdutoDTO p) throws ProdutoException;
-    
+
 }

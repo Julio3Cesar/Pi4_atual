@@ -1,12 +1,12 @@
 package br.com.senac.lojashowmuscial.service.impl;
 
+import br.com.senac.lojashowmuscial.dao.impl.VendaDaoImpl;
 import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
-import br.com.senac.lojashowmusical.dao.ClienteDao;
-import br.com.senac.lojashowmusical.dao.ProdutoDao;
-import br.com.senac.lojashowmusical.dao.impl.ClienteDaoImpl;
-import br.com.senac.lojashowmusical.dao.impl.ProdutoDaoImpl;
+import br.com.senac.lojashowmuscial.exception.ProdutoException;
+import br.com.senac.lojashowmuscial.service.ClienteService;
+import br.com.senac.lojashowmuscial.service.ProdutoService;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,13 +14,14 @@ import javax.swing.JOptionPane;
 
 public class VendaServiceImpl {
 
-    private final ProdutoDao daoProduto;
-    private final ClienteDao daoCliente;
+    private final ProdutoService produtoService;
+    private final ClienteService clienteService;
     private static VendaServiceImpl service;
+    private VendaDaoImpl dao;
 
     private VendaServiceImpl() throws SQLException {
-        this.daoProduto = new ProdutoDaoImpl();
-        this.daoCliente = new ClienteDaoImpl();
+        this.produtoService = ProdutoServiceImpl.getInstance();
+        this.clienteService = ClienteServiceImpl.getInstance();
     }
 
     public static VendaServiceImpl getInstance() {
@@ -38,25 +39,11 @@ public class VendaServiceImpl {
     }
 
     public ClienteDTO getCliente(String cpf) throws ClienteException {
-        try {
-            return this.daoCliente.getT(cpf);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ClienteException("Algo deu errado entre em contato "
-                    + "com os desenvolvedores.");
-        }
+        return this.clienteService.getT(cpf);
     }
 
-    public ProdutoDTO getProduto(String codBarras) throws ClienteException {
-        try {
-            return this.daoProduto.getT(codBarras);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ClienteException("Algo deu errado entre em contato "
-                    + "com os desenvolvedores.");
-        }
+    public ProdutoDTO getProduto(String codBarras) throws ProdutoException {
+        return this.produtoService.getT(codBarras);
     }
 
 }

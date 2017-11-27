@@ -26,5 +26,6 @@ public interface ClienteService {
     List<ClienteDTO> search(String nome) throws ClienteException;
 
     void update(ClienteDTO cli) throws ClienteException;
-    
+
+    ClienteDTO getT(String cpf) throws ClienteException;
 }
