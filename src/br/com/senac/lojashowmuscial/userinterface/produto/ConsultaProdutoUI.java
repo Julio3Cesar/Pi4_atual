@@ -116,11 +116,11 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nome", "Marca", "Modelo", "Cor", "Qtd. Estoque", "Preço", "Tipo"
+                "Id", "Cod.Barras", "Nome", "Marca", "Modelo", "Cor", "Qtd. Estoque", "Preço", "Tipo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -262,7 +262,7 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
             this.ultimoEvt = evt;
             this.produtos = service.search(txtPesquisa.getText());
             this.ultimaPesquisa = txtPesquisa.getText();
-            Object[] linha = new Object[8];
+            Object[] linha = new Object[9];
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setRowCount(0);
             if (produtos.isEmpty()) {
@@ -270,15 +270,16 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
             } else {
                 for (ProdutoDTO p : produtos) {
                     linha[0] = p.getDescricao().getIdDescricao();
-                    linha[1] = p.getNome();
-                    linha[2] = p.getMarca().getMarca();
-                    linha[3] = p.getDescricao().getModelo();
-                    linha[4] = p.getDescricao().getCor();
-                    linha[5] = p.getDescricao().getEstoque();
-                    linha[6] = p.getDescricao().getPreco();
-                    linha[7] = p.getTipo().getName();
+                    linha[1] = p.getCodBarras();
+                    linha[2] = p.getNome();
+                    linha[3] = p.getMarca().getMarca();
+                    linha[4] = p.getDescricao().getModelo();
+                    linha[5] = p.getDescricao().getCor();
+                    linha[6] = p.getDescricao().getEstoque();
+                    linha[7] = p.getDescricao().getPreco();
+                    linha[8] = p.getTipo().getName();
                     model.addRow(linha);
-                    linha = new Object[8];
+                    linha = new Object[9];
                 }
             }
         } catch (ProdutoException ex) {

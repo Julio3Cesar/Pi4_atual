@@ -2,8 +2,8 @@ package br.com.senac.lojashowmuscial.enums;
 
 public enum TipoPagamentoEnum {
 
-    SELECIONE("SELECIONE"), CARTÃO("CARTÃO"), DINHEIRO("DINHEIRO"),
-    BOLETO("BOLETO"), CHEQUE("CHEQUE");
+    SELECIONE("SELECIONE"), CRÉDITO("CRÉDITO"), DINHEIRO("DINHEIRO"),
+    BOLETO("BOLETO"), CHEQUE("CHEQUE"), DÉBITO("DÉBITO");
 
     private final String name;
 

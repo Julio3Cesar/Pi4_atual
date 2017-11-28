@@ -36,6 +36,10 @@ public class ValidadorProduto {
                 throw new ProdutoException("É necessário informar "
                         + "o valor do produto.");
             }
+            if (produto.getCodBarras() == null || produto.getCodBarras().equals("")) {
+                throw new ProdutoException("É necessário informar "
+                        + "o código de barras do produto.");
+            }
         }
         return produto;
     }

@@ -2,7 +2,7 @@ package br.com.senac.lojashowmuscial.entity;
 
 import java.util.Date;
 
-public class RelatorioEntity {
+public class RelatorioDetalhadoEntity {
 
     private Date dataVenda;
     private String nomeProduto;
