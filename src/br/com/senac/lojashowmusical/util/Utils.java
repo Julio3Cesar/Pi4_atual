@@ -1,6 +1,6 @@
 package br.com.senac.lojashowmuscial.util;
 
-import br.com.senac.lojashowmuscial.bean.ProdutoQtd;
+import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.dto.ContatoDTO;
 import br.com.senac.lojashowmuscial.dto.EnderecoDTO;

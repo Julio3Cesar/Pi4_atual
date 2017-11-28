@@ -1,4 +1,4 @@
-package br.com.senac.lojashowmuscial.bean;
+package br.com.senac.lojashowmusical.bean;
 
 import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 

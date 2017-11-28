@@ -1,6 +1,6 @@
 package br.com.senac.lojashowmuscial.service.impl;
 
-import br.com.senac.lojashowmuscial.bean.ProdutoQtd;
+import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmuscial.dao.ItemProdutoDao;
 import br.com.senac.lojashowmuscial.service.VendaService;
 import br.com.senac.lojashowmuscial.dao.VendaDao;

@@ -1,6 +1,6 @@
 package br.com.senac.lojashowmuscial.dto;
 
-import br.com.senac.lojashowmuscial.bean.ProdutoQtd;
+import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmuscial.enums.TipoPagamentoEnum;
 import java.util.Date;
 import java.util.List;
