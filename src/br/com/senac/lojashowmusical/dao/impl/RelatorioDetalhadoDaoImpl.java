@@ -1,8 +1,7 @@
-package br.com.senac.lojashowmuscial.dao.impl;
+package br.com.senac.lojashowmusical.dao.impl;
 
 import br.com.senac.lojashowmuscial.dao.RelatorioDetalhadoDao;
 import br.com.senac.lojashowmuscial.entity.RelatorioDetalhadoEntity;
-import br.com.senac.lojashowmuscial.entity.RelatorioGeralEntity;
 import br.com.senac.lojashowmuscial.factory.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,4 +1,4 @@
-package br.com.senac.lojashowmuscial.dao.impl;
+package br.com.senac.lojashowmusical.dao.impl;
 
 import br.com.senac.lojashowmuscial.dao.VendaDao;
 import br.com.senac.lojashowmuscial.entity.VendaEntity;
