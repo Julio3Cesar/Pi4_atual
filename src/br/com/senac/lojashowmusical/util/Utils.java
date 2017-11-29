@@ -1,11 +1,9 @@
-package br.com.senac.lojashowmuscial.util;
+package br.com.senac.lojashowmusical.util;
 
 import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.dto.ContatoDTO;
 import br.com.senac.lojashowmuscial.dto.EnderecoDTO;
-import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
-import br.com.senac.lojashowmuscial.dto.VendaDTO;
 import br.com.senac.lojashowmuscial.entity.ClienteEntity;
 import br.com.senac.lojashowmuscial.entity.ContatoEntity;
 import br.com.senac.lojashowmuscial.entity.EnderecoEntity;
@@ -14,7 +12,8 @@ import br.com.senac.lojashowmuscial.entity.ProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.MarcaProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.TipoProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.VendaEntity;
-import br.com.senac.lojashowmuscial.enums.TipoPagamentoEnum;
+import br.com.senac.lojashowmusical.dto.ProdutoDTO;
+import br.com.senac.lojashowmusical.dto.VendaDTO;
 
 public class Utils {
 

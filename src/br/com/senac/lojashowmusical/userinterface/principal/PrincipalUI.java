@@ -1,10 +1,10 @@
-package br.com.senac.lojashowmuscial.userinterface.principal;
+package br.com.senac.lojashowmusical.userinterface.principal;
 
-import br.com.senac.lojashowmuscial.userinterface.cliente.CadastroClienteUI;
-import br.com.senac.lojashowmuscial.userinterface.cliente.ConsultaClienteUI;
 import br.com.senac.lojashowmuscial.userinterface.funcionario.CadastroFuncionarioUI;
-import br.com.senac.lojashowmuscial.userinterface.produto.CadastroProdutoUI;
-import br.com.senac.lojashowmuscial.userinterface.produto.ConsultaProdutoUI;
+import br.com.senac.lojashowmusical.userinterface.cliente.CadastroClienteUI;
+import br.com.senac.lojashowmusical.userinterface.cliente.ConsultaClienteUI;
+import br.com.senac.lojashowmusical.userinterface.produto.CadastroProdutoUI;
+import br.com.senac.lojashowmusical.userinterface.produto.ConsultaProdutoUI;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -49,7 +49,7 @@ public class PrincipalUI extends javax.swing.JFrame {
             private Image image;
             {
                 try {
-                    image = ImageIO.read(new File("src/br/com/senac/lojashowmuscial/userinterface/principal/viola.jpeg"));
+                    image = ImageIO.read(new File("src/br/com/senac/lojashowmusical/userinterface/principal/viola.jpeg"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

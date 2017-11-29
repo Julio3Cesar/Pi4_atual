@@ -1,13 +1,13 @@
-package br.com.senac.lojashowmuscial.dto;
+package br.com.senac.lojashowmusical.dto;
 
+import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmuscial.enums.TipoPagamentoEnum;
 import java.util.Date;
 import java.util.List;
 
 public class VendaDTO {
-    
-    
+
     private Date dataVenda;
     private ClienteDTO cliente;
     private List<ProdutoQtd> produtosQtd;
@@ -61,6 +61,13 @@ public class VendaDTO {
 
     public void setTipoPagamento(TipoPagamentoEnum tipoPagamento) {
         this.tipoPagamento = tipoPagamento;
+    }
+
+    @Override
+    public String toString() {
+        return "Venda:" + "\nData da venda: " + dataVenda + "\nCliente: " + cliente.getNome() + "\nProdutos:\n"
+                + produtosQtd + "\nValor total da venda: " + precoTotalVenda + "\nParcelas: " + parcelas
+                + "\nForma de pagamento: " + tipoPagamento;
     }
 
 }

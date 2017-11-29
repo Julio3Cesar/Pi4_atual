@@ -1,11 +1,11 @@
-package br.com.senac.lojashowmuscial.userinterface.produto;
+package br.com.senac.lojashowmusical.userinterface.produto;
 
-import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 import br.com.senac.lojashowmuscial.enums.TipoInstrumentoEnum;
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
-import br.com.senac.lojashowmuscial.service.ProdutoService;
-import br.com.senac.lojashowmuscial.service.impl.ProdutoServiceImpl;
-import br.com.senac.lojashowmuscial.validations.ValidadorProduto;
+import br.com.senac.lojashowmusical.dto.ProdutoDTO;
+import br.com.senac.lojashowmusical.service.ProdutoService;
+import br.com.senac.lojashowmusical.service.impl.ProdutoServiceImpl;
+import br.com.senac.lojashowmusical.validations.ValidadorProduto;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;

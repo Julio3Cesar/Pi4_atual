@@ -1,11 +1,19 @@
 package br.com.senac.lojashowmusical.bean;
 
-import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
+import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 
 public class ProdutoQtd {
 
     private ProdutoDTO produto;
     private Integer quantidade;
+
+    public ProdutoQtd() {
+    }
+
+    public ProdutoQtd(ProdutoDTO produto, Integer quantidade) {
+        this.produto = produto;
+        this.quantidade = quantidade;
+    }
 
     public ProdutoDTO getProduto() {
         return produto;
@@ -21,6 +29,11 @@ public class ProdutoQtd {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
+    }
+
+    @Override
+    public String toString() {
+        return produto + "  Quantidade:" + quantidade;
     }
 
 }

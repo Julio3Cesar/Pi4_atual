@@ -5,10 +5,10 @@
  */
 package br.com.senac.lojashowmusical.dao;
 
-import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 import br.com.senac.lojashowmuscial.entity.MarcaProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.ProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.TipoProdutoEntity;
+import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import java.sql.SQLException;
 import java.util.List;
 

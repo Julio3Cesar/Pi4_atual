@@ -1,16 +1,16 @@
-package br.com.senac.lojashowmuscial.service.impl;
+package br.com.senac.lojashowmusical.service.impl;
 
-import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
-import br.com.senac.lojashowmuscial.util.Utils;
 import br.com.senac.lojashowmusical.dao.impl.ProdutoDaoImpl;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import br.com.senac.lojashowmuscial.service.ProdutoService;
 import br.com.senac.lojashowmusical.dao.ProdutoDao;
+import br.com.senac.lojashowmusical.dto.ProdutoDTO;
+import br.com.senac.lojashowmusical.service.ProdutoService;
+import br.com.senac.lojashowmusical.util.Utils;
 
 public class ProdutoServiceImpl implements ProdutoService {
 

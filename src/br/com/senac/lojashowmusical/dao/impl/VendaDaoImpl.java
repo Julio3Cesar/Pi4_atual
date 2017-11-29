@@ -30,7 +30,7 @@ public class VendaDaoImpl implements VendaDao {
             pst.setString(2, v.getTipoPagamento().getName());
             pst.setInt(3, v.getParcelas());
             pst.setDouble(4, v.getPrecoTotalVenda());
-            pst.setTimestamp(4, new Timestamp(v.getDataVenda().getTime()));
+            pst.setTimestamp(5, new Timestamp(v.getDataVenda().getTime()));
 
             pst.execute();
         } finally {

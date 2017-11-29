@@ -1,8 +1,11 @@
-package br.com.senac.lojashowmuscial.dto;
+package br.com.senac.lojashowmusical.dto;
 
+import br.com.senac.lojashowmuscial.dto.DescricaoDTO;
+import br.com.senac.lojashowmuscial.dto.MarcaDTO;
 import br.com.senac.lojashowmuscial.entity.ProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.MarcaProdutoEntity;
 import br.com.senac.lojashowmuscial.enums.TipoInstrumentoEnum;
+import java.util.Objects;
 
 public class ProdutoDTO {
 
@@ -82,4 +85,23 @@ public class ProdutoDTO {
     public void setCodBarras(String codBarras) {
         this.codBarras = codBarras;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProdutoDTO other = (ProdutoDTO) obj;
+        if (!Objects.equals(this.codBarras, other.codBarras)) {
+            return false;
+        }
+        return true;
+    }
+
 }

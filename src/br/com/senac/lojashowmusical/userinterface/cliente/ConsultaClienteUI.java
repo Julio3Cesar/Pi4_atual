@@ -1,10 +1,10 @@
-package br.com.senac.lojashowmuscial.userinterface.cliente;
+package br.com.senac.lojashowmusical.userinterface.cliente;
 
 import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
-import br.com.senac.lojashowmuscial.service.ClienteService;
-import br.com.senac.lojashowmuscial.service.impl.ClienteServiceImpl;
-import br.com.senac.lojashowmuscial.userinterface.produto.ConsultaProdutoUI;
+import br.com.senac.lojashowmusical.service.ClienteService;
+import br.com.senac.lojashowmusical.service.impl.ClienteServiceImpl;
+import br.com.senac.lojashowmusical.userinterface.produto.ConsultaProdutoUI;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -199,7 +199,7 @@ public class ConsultaClienteUI extends javax.swing.JFrame {
                         .addComponent(btnExcluir)
                         .addComponent(btnAlterar))
                     .addComponent(btnFechar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

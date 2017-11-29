@@ -6,7 +6,6 @@ import br.com.senac.lojashowmuscial.dao.RelatorioGeralDao;
 import br.com.senac.lojashowmuscial.entity.RelatorioDetalhadoEntity;
 import br.com.senac.lojashowmuscial.entity.RelatorioGeralEntity;
 import br.com.senac.lojashowmuscial.service.RelatorioService;
-import br.com.senac.lojashowmuscial.service.impl.ClienteServiceImpl;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioDetalhadoDaoImpl;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioGeralDaoImpl;
 import java.sql.SQLException;

@@ -1,13 +1,13 @@
 package br.com.senac.lojashowmusical.dao.impl;
 
-import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 import br.com.senac.lojashowmuscial.entity.MarcaProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.ProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.TipoProdutoEntity;
 import br.com.senac.lojashowmuscial.enums.TipoInstrumentoEnum;
 import br.com.senac.lojashowmuscial.factory.ConnectionFactory;
-import br.com.senac.lojashowmuscial.util.Utils;
 import br.com.senac.lojashowmusical.dao.ProdutoDao;
+import br.com.senac.lojashowmusical.dto.ProdutoDTO;
+import br.com.senac.lojashowmusical.util.Utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

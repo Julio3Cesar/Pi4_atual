@@ -1,10 +1,11 @@
-package br.com.senac.lojashowmuscial.userinterface.produto;
+package br.com.senac.lojashowmusical.userinterface.produto;
 
-import br.com.senac.lojashowmuscial.dto.ProdutoDTO;
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
-import br.com.senac.lojashowmuscial.service.ProdutoService;
-import br.com.senac.lojashowmuscial.service.impl.ProdutoServiceImpl;
-import br.com.senac.lojashowmuscial.userinterface.venda.VendasUI;
+import br.com.senac.lojashowmusical.dto.ProdutoDTO;
+import br.com.senac.lojashowmusical.service.ProdutoService;
+import br.com.senac.lojashowmusical.service.impl.ProdutoServiceImpl;
+import br.com.senac.lojashowmusical.userinterface.venda.QuantidadeDialogUI;
+import br.com.senac.lojashowmusical.userinterface.venda.VendasUI;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,9 +27,10 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
 
     private List<ProdutoDTO> produtos;
     private final ProdutoService service;
-    private CadastroProdutoUI editarProduto;
     private String ultimaPesquisa;
+    private CadastroProdutoUI editarProduto;
     private ActionEvent ultimoEvt;
+    private QuantidadeDialogUI dialogo;
 
     /**
      * Creates new form ConsultaProduto
@@ -233,7 +235,7 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         final int row = table.getSelectedRow();
         if (row >= 0) {
-            String nome = (String) table.getValueAt(row, 1);
+            String nome = (String) table.getValueAt(row, 2);
             int resposta = JOptionPane.showConfirmDialog(rootPane,
                     "Excluir o cliente \"" + nome + "\"?",
                     "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
@@ -343,21 +345,31 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         try {
-            int resposta = JOptionPane.YES_OPTION;
-            do {
-                final int row = table.getSelectedRow();
-                if (row >= 0) {
-                    Integer id = (Integer) table.getValueAt(row, 0);
-                    ProdutoDTO produto = service.getT(id);
-                    VendasUI.carrinho.add(produto);
-                    resposta = JOptionPane.showConfirmDialog(rootPane,
-                            "Quer Adicionar outro produto?",
-                            "Confirmar Adição", JOptionPane.YES_NO_OPTION);
+            final int row = table.getSelectedRow();
+            if (row >= 0) {
+                Integer id = (Integer) table.getValueAt(row, 0);
+                ProdutoDTO produto = service.getT(id);
+                Boolean exist = VendasUI.carrinho.contains(produto);
+                if (exist) {
+                    JOptionPane.showMessageDialog(rootPane, "Produto já adicionado, "
+                            + "caso queira altere a quantidade na tela de venda.");
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Para Alterar, selecione um produto.");
+                    VendasUI.carrinho.add(produto);
+                    dialogo = new QuantidadeDialogUI(this, true);
+                    Integer qtd = 0;
+                    do {
+                        qtd = dialogo.showDialog();
+                        if (qtd == 0) {
+                            JOptionPane.showMessageDialog(rootPane, "Digite uma quantidade "
+                                    + "diferente de 0.");
+                        }
+                    } while (qtd == 0);
+                    VendasUI.qtd.put(produto.getCodBarras(), qtd);
                 }
-            } while (resposta == JOptionPane.YES_OPTION);
-            this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Para selecionar, "
+                        + "selecione um produto.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(rootPane, "Não é possível "
@@ -397,7 +409,7 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultaProdutoUI(true).setVisible(true);
+                new ConsultaProdutoUI(false).setVisible(true);
             }
         });
     }
