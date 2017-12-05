@@ -1,4 +1,4 @@
-package br.com.senac.lojashowmuscial.entity;
+package br.com.senac.lojashowmusical.entity;
 
 public class ItensVendaEntity {
 

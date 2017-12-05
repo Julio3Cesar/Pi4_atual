@@ -1,6 +1,7 @@
 package br.com.senac.lojashowmusical.userinterface.produto;
 
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
+import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import br.com.senac.lojashowmusical.service.ProdutoService;
 import br.com.senac.lojashowmusical.service.impl.ProdutoServiceImpl;
@@ -344,17 +345,17 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+        ProdutoQtd produto;
         try {
             final int row = table.getSelectedRow();
             if (row >= 0) {
                 Integer id = (Integer) table.getValueAt(row, 0);
-                ProdutoDTO produto = service.getT(id);
-                Boolean exist = VendasUI.carrinho.contains(produto);
+                produto = new ProdutoQtd(service.getT(id));
+                Boolean exist = VendasUI.venda.getProdutosQtd().contains(produto);
                 if (exist) {
                     JOptionPane.showMessageDialog(rootPane, "Produto já adicionado, "
                             + "caso queira altere a quantidade na tela de venda.");
                 } else {
-                    VendasUI.carrinho.add(produto);
                     dialogo = new QuantidadeDialogUI(this, true);
                     Integer qtd = 0;
                     do {
@@ -364,7 +365,8 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
                                     + "diferente de 0.");
                         }
                     } while (qtd == 0);
-                    VendasUI.qtd.put(produto.getCodBarras(), qtd);
+                    produto.setQuantidade(qtd);
+                    VendasUI.venda.getProdutosQtd().add(produto);
                 }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Para selecionar, "

@@ -1,8 +1,8 @@
 package br.com.senac.lojashowmusical.dto;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.bean.ProdutoQtd;
-import br.com.senac.lojashowmuscial.enums.TipoPagamentoEnum;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,9 +11,12 @@ public class VendaDTO {
     private Date dataVenda;
     private ClienteDTO cliente;
     private List<ProdutoQtd> produtosQtd;
-    private Double precoTotalVenda;
-    private Integer parcelas;
-    private TipoPagamentoEnum tipoPagamento;
+    private PagamentoDTO pagamento;
+
+    public VendaDTO() {
+        this.produtosQtd = new ArrayList<>();
+
+    }
 
     public ClienteDTO getCliente() {
         return cliente;
@@ -39,35 +42,24 @@ public class VendaDTO {
         this.produtosQtd = produtosQtd;
     }
 
-    public Double getPrecoTotalVenda() {
-        return precoTotalVenda;
+    public PagamentoDTO getPagamento() {
+        return pagamento;
     }
 
-    public void setPrecoTotalVenda(Double precoTotalVenda) {
-        this.precoTotalVenda = precoTotalVenda;
-    }
-
-    public Integer getParcelas() {
-        return parcelas;
-    }
-
-    public void setParcelas(Integer parcelas) {
-        this.parcelas = parcelas;
-    }
-
-    public TipoPagamentoEnum getTipoPagamento() {
-        return tipoPagamento;
-    }
-
-    public void setTipoPagamento(TipoPagamentoEnum tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
+    public void setPagamento(PagamentoDTO pagamento) {
+        this.pagamento = pagamento;
     }
 
     @Override
     public String toString() {
-        return "Venda:" + "\nData da venda: " + dataVenda + "\nCliente: " + cliente.getNome() + "\nProdutos:\n"
-                + produtosQtd + "\nValor total da venda: " + precoTotalVenda + "\nParcelas: " + parcelas
-                + "\nForma de pagamento: " + tipoPagamento;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return "Venda:"
+                + "\nData da venda: " + sdf.format(dataVenda)
+                + "\nCliente: " + cliente.getNome()
+                + "\nProdutos:\n" + produtosQtd
+                + "\nValor total da venda: " + pagamento.getPrecoTotalVenda()
+                + "\nParcelas: " + pagamento.getParcelas()
+                + "\nForma de pagamento: " + pagamento.getTipoPagamento();
     }
 
 }

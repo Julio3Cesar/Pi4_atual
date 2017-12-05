@@ -1,4 +1,4 @@
-package br.com.senac.lojashowmuscial.enums;
+package br.com.senac.lojashowmusical.enums;
 
 public enum TipoPagamentoEnum {
 

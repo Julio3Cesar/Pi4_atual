@@ -1,8 +1,8 @@
 package br.com.senac.lojashowmusical.dao.impl;
 
-import br.com.senac.lojashowmuscial.dao.VendaDao;
-import br.com.senac.lojashowmuscial.entity.VendaEntity;
 import br.com.senac.lojashowmuscial.factory.ConnectionFactory;
+import br.com.senac.lojashowmusical.dao.VendaDao;
+import br.com.senac.lojashowmusical.entity.VendaEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +41,7 @@ public class VendaDaoImpl implements VendaDao {
     @Override
     public Integer getLastId() throws SQLException {
         Integer resp;
-        String sql = "SELECT MAX(ID_VENDA) FROM VENDA";
+        String sql = "SELECT MAX(ID_VENDA) AS 'ID_VENDA' FROM VENDA";
 
         try {
             this.conn = ConnectionFactory.getConnection();
@@ -50,7 +50,6 @@ public class VendaDaoImpl implements VendaDao {
 
             rs.next();
             resp = rs.getInt("ID_VENDA");
-
         } finally {
             ConnectionFactory.closeConnection(conn, pst, rs);
         }

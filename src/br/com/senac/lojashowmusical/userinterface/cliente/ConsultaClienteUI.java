@@ -1,7 +1,7 @@
 package br.com.senac.lojashowmusical.userinterface.cliente;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
+import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.service.impl.ClienteServiceImpl;
 import br.com.senac.lojashowmusical.userinterface.produto.ConsultaProdutoUI;

@@ -1,6 +1,6 @@
-package br.com.senac.lojashowmuscial.entity;
+package br.com.senac.lojashowmusical.entity;
 
-import br.com.senac.lojashowmuscial.enums.TipoPagamentoEnum;
+import br.com.senac.lojashowmusical.enums.TipoPagamentoEnum;
 import java.util.Date;
 
 public class VendaEntity {

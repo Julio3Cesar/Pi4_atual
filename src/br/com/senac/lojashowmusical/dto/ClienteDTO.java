@@ -1,5 +1,7 @@
-package br.com.senac.lojashowmuscial.dto;
+package br.com.senac.lojashowmusical.dto;
 
+import br.com.senac.lojashowmuscial.dto.ContatoDTO;
+import br.com.senac.lojashowmuscial.dto.EnderecoDTO;
 import br.com.senac.lojashowmuscial.enums.EstadoCivilEnum;
 import br.com.senac.lojashowmuscial.enums.SexoEnum;
 import java.util.Date;

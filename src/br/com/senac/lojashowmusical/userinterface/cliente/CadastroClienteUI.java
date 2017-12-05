@@ -1,14 +1,14 @@
 package br.com.senac.lojashowmusical.userinterface.cliente;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.dto.ContatoDTO;
 import br.com.senac.lojashowmuscial.dto.EnderecoDTO;
 import br.com.senac.lojashowmuscial.enums.EstadoCivilEnum;
 import br.com.senac.lojashowmuscial.enums.SexoEnum;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
-import br.com.senac.lojashowmuscial.validations.ValidadorCliente;
+import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.service.impl.ClienteServiceImpl;
+import br.com.senac.lojashowmusical.validations.ValidadorCliente;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

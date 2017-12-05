@@ -104,4 +104,10 @@ public class ProdutoDTO {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return nome + " " + marca.getMarca()
+                + "  " + descricao.getModelo() + "\n";
+    }
+
 }

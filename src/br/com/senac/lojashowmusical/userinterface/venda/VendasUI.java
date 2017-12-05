@@ -5,12 +5,10 @@
  */
 package br.com.senac.lojashowmusical.userinterface.venda;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
 import br.com.senac.lojashowmuscial.exception.VendaException;
 import br.com.senac.lojashowmusical.bean.ProdutoQtd;
-import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import br.com.senac.lojashowmusical.dto.VendaDTO;
 import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.service.ProdutoService;
@@ -20,11 +18,7 @@ import br.com.senac.lojashowmusical.service.impl.ProdutoServiceImpl;
 import br.com.senac.lojashowmusical.service.impl.VendaServiceImpl;
 import br.com.senac.lojashowmusical.userinterface.cliente.CadastroClienteUI;
 import br.com.senac.lojashowmusical.userinterface.produto.ConsultaProdutoUI;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -33,26 +27,20 @@ import javax.swing.table.DefaultTableModel;
 
 public class VendasUI extends javax.swing.JFrame {
 
-    public static List<ProdutoDTO> carrinho;
-    public static Map<String, Integer> qtd;
     private final ClienteService serviceCliente;
     private final ProdutoService serviceProduto;
     private ConsultaProdutoUI pesquisarProduto;
-    private ClienteDTO comprador;
     private final VendaService serviceVenda;
-    private ProdutoDTO produto;
-    private Double valorTotal;
+    public static VendaDTO venda;
 
     /**
      * Creates new form VendasUI
      */
     public VendasUI() {
-        valorTotal = 0.0;
-        carrinho = new ArrayList<>();
+        venda = new VendaDTO();
         this.serviceCliente = ClienteServiceImpl.getInstance();
         this.serviceProduto = ProdutoServiceImpl.getInstance();
         this.serviceVenda = VendaServiceImpl.getInstance();
-        qtd = new HashMap<>();
         initComponents();
         lblNome.setVisible(false);
     }
@@ -81,7 +69,7 @@ public class VendasUI extends javax.swing.JFrame {
         btnCpfOk = new javax.swing.JToggleButton();
         lblNome = new javax.swing.JLabel();
         txtQtd = new javax.swing.JFormattedTextField();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        btnFechar = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -163,10 +151,10 @@ public class VendasUI extends javax.swing.JFrame {
         txtQtd.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         txtQtd.setText("0");
 
-        jToggleButton1.setText("Fechar");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                btnFecharActionPerformed(evt);
             }
         });
 
@@ -185,7 +173,7 @@ public class VendasUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnRemover)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -234,7 +222,7 @@ public class VendasUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFinalizar)
                     .addComponent(btnRemover)
-                    .addComponent(jToggleButton1)))
+                    .addComponent(btnFechar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -257,21 +245,28 @@ public class VendasUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        FinalizarVendaDialogUI dialogoFinalizar = new FinalizarVendaDialogUI(this, true);
-        VendaDTO venda = dialogoFinalizar.showDialog();
-        venda.setCliente(comprador);
-        venda.setDataVenda(new Date());
-        List<ProdutoQtd> prods = new ArrayList<>();
-        carrinho.forEach((p) -> {
-            prods.add(new ProdutoQtd(p, qtd.get(p.getCodBarras())));
-            valorTotal += p.getDescricao().getPreco() * qtd.get(p.getCodBarras());
-        });
-        venda.setProdutosQtd(prods);
-        venda.setPrecoTotalVenda(valorTotal);
-        try {
-            serviceVenda.insert(venda);
-        } catch (VendaException ex) {
-            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
+        if (lblNome.isVisible() && venda.getProdutosQtd().size() > 0) {
+            FinalizarVendaDialogUI dialogoFinalizar = new FinalizarVendaDialogUI(this, true);
+            venda.setPagamento(dialogoFinalizar.showDialog());
+            for (ProdutoQtd p : venda.getProdutosQtd()) {
+                venda.getPagamento().setPrecoTotalVenda(venda.getPagamento().getPrecoTotalVenda()
+                        + (p.getProduto().getDescricao().getPreco() * p.getQuantidade()));
+            }
+            venda.setDataVenda(new Date());
+            try {
+                serviceVenda.insert(venda);
+                JOptionPane.showMessageDialog(rootPane, venda.toString(), "Resumo da Venda", JOptionPane.INFORMATION_MESSAGE);
+                venda = new VendaDTO();
+                updateCarrinho();
+                txtCpf.setText("");
+                lblNome.setVisible(false);
+            } catch (VendaException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, "Error ao concluir a venda.");
+                Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "É necessario informar o cliente e o(s) produto(s).");
         }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
@@ -279,11 +274,11 @@ public class VendasUI extends javax.swing.JFrame {
         String cpf = txtCpf.getText().replace(".", "").replace("-", "");
         if (cpf != null && !cpf.replace("           ", "").equals("")) {
             try {
-                this.comprador = this.serviceCliente.getT(cpf);
-                lblNome.setText(this.comprador.getNome().toUpperCase());
+                venda.setCliente(this.serviceCliente.getT(cpf));
+                lblNome.setText(venda.getCliente().getNome().toUpperCase());
                 lblNome.setVisible(true);
             } catch (ClienteException e) {
-                if (comprador == null) {
+                if (venda.getCliente() == null) {
                     int resposta = JOptionPane.showConfirmDialog(rootPane,
                             "Cliente não encontrador, deseja cadastrar novo?",
                             "Não Encontrado", JOptionPane.YES_NO_OPTION);
@@ -306,31 +301,36 @@ public class VendasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCpfOkActionPerformed
 
     private void btnQtdOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQtdOkActionPerformed
-        String codBarras = txtCodDeBarras.getText();
-        try {
-            produto = this.serviceProduto.getT(codBarras);
-            Boolean exist = carrinho.contains(produto);
-            if (exist) {
-                JOptionPane.showMessageDialog(rootPane, "Produto já adicionado, "
-                        + "caso queira altere a quantidade no carrinho.");
-            } else {
-                if (txtQtd.getText().equals("0") || txtQtd.getText().equals("")) {
-                    JOptionPane.showMessageDialog(rootPane, "Digite a Quantidade.");
+        if (!txtCodDeBarras.getText().equals("")) {
+            ProdutoQtd produto = null;
+            try {
+                produto = new ProdutoQtd(this.serviceProduto.getT(txtCodDeBarras.getText()));
+                Boolean exist = venda.getProdutosQtd().contains(produto);
+                if (exist) {
+                    JOptionPane.showMessageDialog(rootPane, "Produto já adicionado, "
+                            + "caso queira altere a quantidade no carrinho.");
                 } else {
-                    carrinho.add(produto);
-                    qtd.put(codBarras, Integer.parseInt(txtQtd.getText()));
-                    this.updateCarrinho();
+                    if (txtQtd.getText().equals("0") || txtQtd.getText().equals("")) {
+                        JOptionPane.showMessageDialog(rootPane, "Digite a Quantidade.");
+                    } else {
+                        produto.setQuantidade(Integer.parseInt(txtQtd.getText()));
+                        venda.getProdutosQtd().add(produto);
+                        this.updateCarrinho();
+                    }
                 }
+            } catch (ProdutoException e) {
+                e.printStackTrace();
+                if (produto == null) {
+                    JOptionPane.showMessageDialog(rootPane, "Produto não encontrado, "
+                            + "faça uma pesquisa.");
+                }
+                Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, e);
             }
-        } catch (ProdutoException e) {
-            e.printStackTrace();
-            if (produto == null) {
-                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado, "
-                        + "faça uma pesquisa.");
-            }
-            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, e);
+            txtCodDeBarras.setText("");
+            txtQtd.setText("0");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Informe o código de barras para pesquisa.");
         }
-
     }//GEN-LAST:event_btnQtdOkActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -346,9 +346,9 @@ public class VendasUI extends javax.swing.JFrame {
         pesquisarProduto.toFront();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         final int row = table.getSelectedRow();
@@ -358,10 +358,10 @@ public class VendasUI extends javax.swing.JFrame {
                     "Tem certeza que deseja remover o produto do carrinho?",
                     "Confirmar Remoção", JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                ProdutoDTO produto = null;
+                ProdutoQtd produto;
                 try {
-                    produto = serviceProduto.getT(codBarras);
-                    VendasUI.carrinho.remove(produto);
+                    produto = new ProdutoQtd(serviceProduto.getT(codBarras));
+                    venda.getProdutosQtd().remove(produto);
                     updateCarrinho();
                 } catch (ProdutoException e) {
                     e.printStackTrace();
@@ -377,17 +377,17 @@ public class VendasUI extends javax.swing.JFrame {
         Object[] linha = new Object[6];
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-        if (carrinho != null && !carrinho.isEmpty()) {
-            for (ProdutoDTO c : carrinho) {
-                linha[0] = c.getCodBarras();
-                linha[1] = c.getNome();
-                linha[2] = c.getMarca().getMarca();
-                linha[3] = c.getDescricao().getModelo();
-                linha[4] = c.getDescricao().getCor();
-                if (qtd.get(c.getCodBarras()) == null) {
+        if (venda.getProdutosQtd() != null && !venda.getProdutosQtd().isEmpty()) {
+            for (int i = 0; i < venda.getProdutosQtd().size(); i++) {
+                linha[0] = venda.getProdutosQtd().get(i).getProduto().getCodBarras();
+                linha[1] = venda.getProdutosQtd().get(i).getProduto().getNome();
+                linha[2] = venda.getProdutosQtd().get(i).getProduto().getMarca().getMarca();
+                linha[3] = venda.getProdutosQtd().get(i).getProduto().getDescricao().getModelo();
+                linha[4] = venda.getProdutosQtd().get(i).getProduto().getDescricao().getCor();
+                if (venda.getProdutosQtd().get(i).getQuantidade() == null) {
                     linha[5] = 0;
                 } else {
-                    linha[5] = qtd.get(c.getCodBarras());
+                    linha[5] = venda.getProdutosQtd().get(i).getQuantidade();
                 }
                 model.addRow(linha);
                 linha = new Object[6];
@@ -432,13 +432,13 @@ public class VendasUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCpfOk;
+    private javax.swing.JToggleButton btnFechar;
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JToggleButton btnQtdOk;
     private javax.swing.JButton btnRemover;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lblCodDeBarras;
     private javax.swing.JLabel lblCpf;
     private javax.swing.JLabel lblNome;

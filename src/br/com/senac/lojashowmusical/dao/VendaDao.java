@@ -1,6 +1,6 @@
-package br.com.senac.lojashowmuscial.dao;
+package br.com.senac.lojashowmusical.dao;
 
-import br.com.senac.lojashowmuscial.entity.VendaEntity;
+import br.com.senac.lojashowmusical.entity.VendaEntity;
 import java.sql.SQLException;
 
 public interface VendaDao {

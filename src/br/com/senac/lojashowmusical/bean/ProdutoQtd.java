@@ -1,6 +1,7 @@
 package br.com.senac.lojashowmusical.bean;
 
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
+import java.util.Objects;
 
 public class ProdutoQtd {
 
@@ -10,9 +11,8 @@ public class ProdutoQtd {
     public ProdutoQtd() {
     }
 
-    public ProdutoQtd(ProdutoDTO produto, Integer quantidade) {
+    public ProdutoQtd(ProdutoDTO produto) {
         this.produto = produto;
-        this.quantidade = quantidade;
     }
 
     public ProdutoDTO getProduto() {
@@ -32,8 +32,32 @@ public class ProdutoQtd {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProdutoQtd other = (ProdutoQtd) obj;
+        if (!Objects.equals(this.produto, other.produto)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return produto + "  Quantidade:" + quantidade;
+        return produto + "quantidade: " + quantidade + "\n";
     }
 
 }

@@ -1,6 +1,5 @@
 package br.com.senac.lojashowmusical.dao.impl;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.entity.ClienteEntity;
 import br.com.senac.lojashowmuscial.entity.ContatoEntity;
 import br.com.senac.lojashowmuscial.entity.EnderecoEntity;
@@ -8,6 +7,7 @@ import br.com.senac.lojashowmuscial.enums.EstadoCivilEnum;
 import br.com.senac.lojashowmuscial.enums.SexoEnum;
 import br.com.senac.lojashowmuscial.factory.ConnectionFactory;
 import br.com.senac.lojashowmusical.dao.ClienteDao;
+import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.util.Utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

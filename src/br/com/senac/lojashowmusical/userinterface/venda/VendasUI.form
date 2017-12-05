@@ -67,7 +67,7 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jToggleButton1" min="-2" pref="87" max="-2" attributes="0"/>
+                                  <Component id="btnFechar" min="-2" pref="87" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="btnRemover" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -127,7 +127,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnFinalizar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnRemover" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jToggleButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnFechar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -274,12 +274,12 @@
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+        <Component class="javax.swing.JToggleButton" name="btnFechar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fechar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

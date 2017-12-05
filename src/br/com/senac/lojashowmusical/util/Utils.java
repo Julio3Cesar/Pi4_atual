@@ -1,19 +1,19 @@
 package br.com.senac.lojashowmusical.util;
 
 import br.com.senac.lojashowmusical.bean.ProdutoQtd;
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.dto.ContatoDTO;
 import br.com.senac.lojashowmuscial.dto.EnderecoDTO;
 import br.com.senac.lojashowmuscial.entity.ClienteEntity;
 import br.com.senac.lojashowmuscial.entity.ContatoEntity;
 import br.com.senac.lojashowmuscial.entity.EnderecoEntity;
-import br.com.senac.lojashowmuscial.entity.ItensVendaEntity;
 import br.com.senac.lojashowmuscial.entity.ProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.MarcaProdutoEntity;
 import br.com.senac.lojashowmuscial.entity.TipoProdutoEntity;
-import br.com.senac.lojashowmuscial.entity.VendaEntity;
+import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import br.com.senac.lojashowmusical.dto.VendaDTO;
+import br.com.senac.lojashowmusical.entity.ItensVendaEntity;
+import br.com.senac.lojashowmusical.entity.VendaEntity;
 
 public class Utils {
 
@@ -47,7 +47,7 @@ public class Utils {
 
     //PRODUTO
     public static ProdutoDTO toProdutoDTO(ProdutoEntity descE, MarcaProdutoEntity marcE, TipoProdutoEntity prodE) {
-        return new ProdutoDTO(prodE.getIdProduto(), prodE.getNome(), prodE.getTipo(),
+        return new ProdutoDTO(descE.getIdDescricao(), prodE.getNome(), prodE.getTipo(),
                 marcE, descE, descE.getCodBarras());
     }
 
@@ -68,11 +68,12 @@ public class Utils {
     }
 
     public static VendaEntity toVendaEntity(VendaDTO venda) {
-        return new VendaEntity(venda.getCliente().getId(), venda.getTipoPagamento(),
-                venda.getParcelas(), venda.getPrecoTotalVenda(), venda.getDataVenda());
+        return new VendaEntity(venda.getCliente().getId(), venda.getPagamento().getTipoPagamento(),
+                venda.getPagamento().getParcelas(),
+                venda.getPagamento().getPrecoTotalVenda(), venda.getDataVenda());
     }
 
-    public static ItensVendaEntity toVendaEntity(Integer id, ProdutoQtd p) {
+    public static ItensVendaEntity toItensVendaEntity(Integer id, ProdutoQtd p) {
         return new ItensVendaEntity(id, p.getProduto().getIdProduto(), p.getQuantidade(),
                 p.getProduto().getDescricao().getPreco());
     }

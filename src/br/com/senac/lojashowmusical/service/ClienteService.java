@@ -5,8 +5,8 @@
  */
 package br.com.senac.lojashowmusical.service;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
+import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import java.util.List;
 
 /**

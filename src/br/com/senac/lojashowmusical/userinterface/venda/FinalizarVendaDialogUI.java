@@ -5,8 +5,10 @@
  */
 package br.com.senac.lojashowmusical.userinterface.venda;
 
-import br.com.senac.lojashowmuscial.enums.TipoPagamentoEnum;
+import br.com.senac.lojashowmusical.dto.PagamentoDTO;
 import br.com.senac.lojashowmusical.dto.VendaDTO;
+import br.com.senac.lojashowmusical.enums.TipoPagamentoEnum;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,7 +16,7 @@ import br.com.senac.lojashowmusical.dto.VendaDTO;
  */
 public class FinalizarVendaDialogUI extends javax.swing.JDialog {
 
-    private VendaDTO venda;
+    private PagamentoDTO pagamento;
 
     /**
      * Creates new form FinalizarVendaDialogUI
@@ -25,9 +27,9 @@ public class FinalizarVendaDialogUI extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }
 
-    VendaDTO showDialog() {
+    PagamentoDTO showDialog() {
         setVisible(true);
-        return venda;
+        return pagamento;
     }
 
     /**
@@ -108,11 +110,18 @@ public class FinalizarVendaDialogUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        venda = new VendaDTO();
-        venda.setTipoPagamento(TipoPagamentoEnum.valueOf(
-                comboForma.getSelectedItem().toString()));
-        venda.setParcelas(Integer.parseInt(
-                comboParcela.getSelectedItem().toString()));
+        if (!comboForma.getSelectedItem().toString().equals("SELECIONE")) {
+
+            pagamento = new PagamentoDTO();
+            pagamento.setTipoPagamento(TipoPagamentoEnum.valueOf(
+                    comboForma.getSelectedItem().toString()));
+            pagamento.setParcelas(Integer.parseInt(
+                    comboParcela.getSelectedItem().toString()));
+            setVisible(false);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma forma de pagamento.");
+        }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     /**

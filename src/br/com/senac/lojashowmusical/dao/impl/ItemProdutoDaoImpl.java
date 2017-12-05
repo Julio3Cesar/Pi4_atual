@@ -1,8 +1,8 @@
 package br.com.senac.lojashowmusical.dao.impl;
 
-import br.com.senac.lojashowmuscial.dao.ItemProdutoDao;
-import br.com.senac.lojashowmuscial.entity.ItensVendaEntity;
 import br.com.senac.lojashowmuscial.factory.ConnectionFactory;
+import br.com.senac.lojashowmusical.dao.ItemProdutoDao;
+import br.com.senac.lojashowmusical.entity.ItensVendaEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -16,7 +16,7 @@ public class ItemProdutoDaoImpl implements ItemProdutoDao {
     public void insert(ItensVendaEntity item) throws SQLException {
 
         String sql = "INSERT INTO ITENS_VENDA (ID_VENDA, ID_DESC_PRD, QTD, "
-                + "PRECO_ORIGINAL_PROTUDO) VALUES "
+                + "PRECO_ORIGINAL_PRODUTO) VALUES "
                 + "(?, ?, ?, ?)";
 
         try {

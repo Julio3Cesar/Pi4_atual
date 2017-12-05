@@ -1,9 +1,9 @@
 package br.com.senac.lojashowmusical.service;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
 import br.com.senac.lojashowmuscial.exception.VendaException;
+import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import br.com.senac.lojashowmusical.dto.VendaDTO;
 

@@ -1,7 +1,7 @@
-package br.com.senac.lojashowmuscial.validations;
+package br.com.senac.lojashowmusical.validations;
 
-import br.com.senac.lojashowmuscial.dto.ClienteDTO;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
+import br.com.senac.lojashowmusical.dto.ClienteDTO;
 
 public class ValidadorCliente {
 
