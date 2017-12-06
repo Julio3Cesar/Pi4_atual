@@ -362,6 +362,7 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
         txtPreco.setValue(null);
         txtEstoque.setValue(null);
         comboTipo.setSelectedIndex(0);
+        txtCodBarras.setText("");
     }
 
     /**

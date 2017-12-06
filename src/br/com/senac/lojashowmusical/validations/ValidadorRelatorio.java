@@ -15,7 +15,7 @@ public class ValidadorRelatorio {
             }
 
             if (dias > 31) {
-                throw new RelatorioDataException("Relatórios de no máximo 31 dias são gerados.");
+                throw new RelatorioDataException("São gerados relatórios de no máximo 31 dias.");
             }
 
         }

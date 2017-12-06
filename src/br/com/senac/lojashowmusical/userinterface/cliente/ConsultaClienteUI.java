@@ -6,6 +6,7 @@ import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.service.impl.ClienteServiceImpl;
 import br.com.senac.lojashowmusical.userinterface.produto.ConsultaProdutoUI;
 import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,12 +30,14 @@ public class ConsultaClienteUI extends javax.swing.JFrame {
     private String ultimaPesquisa;
     private CadastroClienteUI editarCliente;
     private ActionEvent ultimoEvt;
+    private SimpleDateFormat sdf;
 
     /**
      * Creates new form ConsultaProduto
      */
     public ConsultaClienteUI() {
         this.service = ClienteServiceImpl.getInstance();
+        this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         initComponents();
         table.getColumnModel().getColumn(0).setMinWidth(0);
         table.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -280,7 +283,7 @@ public class ConsultaClienteUI extends javax.swing.JFrame {
                     linha[0] = p.getId();
                     linha[1] = p.getNome();
                     linha[2] = p.getSexo().getName();
-                    linha[3] = p.getDataDeNascimento();
+                    linha[3] = sdf.format(p.getDataDeNascimento());
                     linha[4] = p.getEstadoCivil();
                     linha[5] = p.getEndereco().getLogradouro();
                     linha[6] = p.getEndereco().getCep();
