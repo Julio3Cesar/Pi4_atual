@@ -5,8 +5,10 @@ import br.com.senac.lojashowmuscial.exception.ProdutoException;
 import br.com.senac.lojashowmuscial.exception.VendaException;
 import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmusical.dao.ItemProdutoDao;
+import br.com.senac.lojashowmusical.dao.ProdutoDao;
 import br.com.senac.lojashowmusical.dao.VendaDao;
 import br.com.senac.lojashowmusical.dao.impl.ItemProdutoDaoImpl;
+import br.com.senac.lojashowmusical.dao.impl.ProdutoDaoImpl;
 import br.com.senac.lojashowmusical.dao.impl.VendaDaoImpl;
 import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
@@ -26,11 +28,13 @@ public class VendaServiceImpl implements VendaService {
     private final ProdutoService produtoService;
     private final ClienteService clienteService;
     private final VendaDao daoVenda;
+    private final ProdutoDao daoProduto;
     private final ItemProdutoDao daoItemProduto;
 
     private VendaServiceImpl() throws SQLException {
         this.produtoService = ProdutoServiceImpl.getInstance();
         this.clienteService = ClienteServiceImpl.getInstance();
+        this.daoProduto = new ProdutoDaoImpl();
         this.daoVenda = new VendaDaoImpl();
         this.daoItemProduto = new ItemProdutoDaoImpl();
     }
@@ -65,6 +69,7 @@ public class VendaServiceImpl implements VendaService {
             daoVenda.insert(Utils.toVendaEntity(venda));
             for (ProdutoQtd p : venda.getProdutosQtd()) {
                 daoItemProduto.insert(Utils.toItensVendaEntity(daoVenda.getLastId(), p));
+                daoProduto.updateEstoque(p.getQuantidade(), p.getProduto().getCodBarras());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

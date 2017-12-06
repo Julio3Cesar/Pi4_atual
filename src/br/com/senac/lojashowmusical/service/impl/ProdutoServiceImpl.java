@@ -124,4 +124,16 @@ public class ProdutoServiceImpl implements ProdutoService {
                     + "com os desenvolvedores.");
         }
     }
+
+    @Override
+    public void updateEstoque(Integer qtd, String codBarras) throws ProdutoException {
+        try {
+            daoProduto.updateEstoque(qtd, codBarras);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(ProdutoServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ProdutoException("Algo deu errado entre em contato "
+                    + "com os desenvolvedores.");
+        }
+    }
 }

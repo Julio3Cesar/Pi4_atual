@@ -29,4 +29,6 @@ public interface ProdutoService {
 
     void update(ProdutoDTO p) throws ProdutoException;
 
+    void updateEstoque(Integer qtd, String codBarras) throws ProdutoException;
+
 }

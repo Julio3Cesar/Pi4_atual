@@ -31,4 +31,6 @@ public interface ProdutoDao {
     void update(ProdutoEntity d, MarcaProdutoEntity m, TipoProdutoEntity p) throws SQLException;
 
     ProdutoDTO getT(String codBarras) throws SQLException;
+
+    void updateEstoque(Integer qtd, String codBarras) throws SQLException;
 }
