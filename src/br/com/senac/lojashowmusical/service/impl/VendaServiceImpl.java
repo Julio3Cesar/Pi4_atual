@@ -68,8 +68,13 @@ public class VendaServiceImpl implements VendaService {
         try {
             daoVenda.insert(Utils.toVendaEntity(venda));
             for (ProdutoQtd p : venda.getProdutosQtd()) {
-                daoItemProduto.insert(Utils.toItensVendaEntity(daoVenda.getLastId(), p));
-                daoProduto.updateEstoque(p.getQuantidade(), p.getProduto().getCodBarras());
+                Integer estoque = p.getProduto().getDescricao().getEstoque();
+                if ((estoque - p.getQuantidade()) < 0) {
+                    daoItemProduto.insert(Utils.toItensVendaEntity(daoVenda.getLastId(), p));
+                    daoProduto.updateEstoque(p.getQuantidade(), p.getProduto().getCodBarras());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Quantidade indisponível no estoque, restam " + estoque + " peças.");
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
