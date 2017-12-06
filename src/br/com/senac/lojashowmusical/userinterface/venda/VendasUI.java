@@ -115,6 +115,11 @@ public class VendasUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tablePropertyChange(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
 
         btnFinalizar.setText("Finalizar Compra");
@@ -372,6 +377,17 @@ public class VendasUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Para Remover, selecione um produto.");
         }
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void tablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tablePropertyChange
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        if (model.getRowCount() > 0) {
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String qtd = (String) model.getValueAt(i, 5).toString();
+                venda.getProdutosQtd().get(i).setQuantidade(Integer.parseInt(qtd));
+            }
+        }
+
+    }//GEN-LAST:event_tablePropertyChange
 
     private void updateCarrinho() {
         Object[] linha = new Object[6];
