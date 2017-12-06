@@ -1,10 +1,11 @@
 package br.com.senac.lojashowmusical.userinterface.principal;
 
-import br.com.senac.lojashowmuscial.userinterface.funcionario.CadastroFuncionarioUI;
 import br.com.senac.lojashowmusical.userinterface.cliente.CadastroClienteUI;
 import br.com.senac.lojashowmusical.userinterface.cliente.ConsultaClienteUI;
 import br.com.senac.lojashowmusical.userinterface.produto.CadastroProdutoUI;
 import br.com.senac.lojashowmusical.userinterface.produto.ConsultaProdutoUI;
+import br.com.senac.lojashowmusical.userinterface.relatorio.RelatorioUI;
+import br.com.senac.lojashowmusical.userinterface.venda.VendasUI;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -26,7 +27,8 @@ public class PrincipalUI extends javax.swing.JFrame {
     private ConsultaClienteUI consultarCliente;
     private CadastroProdutoUI cadastrarProduto;
     private ConsultaProdutoUI consultarProduto;
-    private CadastroFuncionarioUI cadastrarFuncionario;
+    private VendasUI venda;
+    private RelatorioUI relatorio;
 
     /**
      * Creates new form Menu
@@ -70,6 +72,10 @@ public class PrincipalUI extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         menuCadasProduto = new javax.swing.JMenuItem();
         menuConsulProduto = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        menuVenda = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        menuRelatorio = new javax.swing.JMenuItem();
 
         jMenuItem5.setText("jMenuItem5");
 
@@ -128,6 +134,30 @@ public class PrincipalUI extends javax.swing.JFrame {
         jMenu2.add(menuConsulProduto);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Venda");
+
+        menuVenda.setText("Vender");
+        menuVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVendaActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menuVenda);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Relatório");
+
+        menuRelatorio.setText("Relatório");
+        menuRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRelatorioActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menuRelatorio);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -189,6 +219,28 @@ public class PrincipalUI extends javax.swing.JFrame {
         consultarProduto.toFront();
     }//GEN-LAST:event_menuConsulProdutoActionPerformed
 
+    private void menuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVendaActionPerformed
+        if (venda == null || !venda.isDisplayable()) {
+            venda = new VendasUI();
+            venda.pack();
+            venda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            venda.setLocationRelativeTo(null);
+            venda.setVisible(true);
+        }
+        venda.toFront();
+    }//GEN-LAST:event_menuVendaActionPerformed
+
+    private void menuRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRelatorioActionPerformed
+        if (relatorio == null || !relatorio.isDisplayable()) {
+            relatorio = new RelatorioUI();
+            relatorio.pack();
+            relatorio.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            relatorio.setLocationRelativeTo(null);
+            relatorio.setVisible(true);
+        }
+        relatorio.toFront();
+    }//GEN-LAST:event_menuRelatorioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -229,6 +281,8 @@ public class PrincipalUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
@@ -237,5 +291,7 @@ public class PrincipalUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuCadasProduto;
     private javax.swing.JMenuItem menuConsulCliente;
     private javax.swing.JMenuItem menuConsulProduto;
+    private javax.swing.JMenuItem menuRelatorio;
+    private javax.swing.JMenuItem menuVenda;
     // End of variables declaration//GEN-END:variables
 }

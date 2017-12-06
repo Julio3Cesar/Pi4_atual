@@ -9,6 +9,7 @@ import br.com.senac.lojashowmuscial.service.RelatorioService;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioDetalhadoDaoImpl;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioGeralDaoImpl;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,9 +41,9 @@ public class RelatorioServiceImpl implements RelatorioService {
     }
 
     @Override
-    public List<RelatorioGeralEntity> getAllRelatorioGeral() throws RelatorioException {
+    public List<RelatorioGeralEntity> getRelatorioGeral(Date dtInicial, Date dtFinal) throws RelatorioException {
         try {
-            return daoRelatorioGeral.listAll();
+            return daoRelatorioGeral.listBetweenDates(dtInicial, dtFinal);
         } catch (SQLException ex) {
             Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new RelatorioException("Algo deu errado entre em contato "
@@ -51,9 +52,9 @@ public class RelatorioServiceImpl implements RelatorioService {
     }
 
     @Override
-    public List<RelatorioDetalhadoEntity> getAllRelatorioDetalhado() throws RelatorioException {
+    public List<RelatorioDetalhadoEntity> getRelatorioDetalhado(Date dtInicial, Date dtFinal) throws RelatorioException {
         try {
-            return daoRelatorioDetalhado.listAll();
+            return daoRelatorioDetalhado.listBetweenDates(dtInicial, dtFinal);
         } catch (SQLException ex) {
             Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new RelatorioException("Algo deu errado entre em contato "

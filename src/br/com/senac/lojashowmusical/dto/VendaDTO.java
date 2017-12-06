@@ -52,7 +52,7 @@ public class VendaDTO {
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         return "Venda:"
                 + "\nData da venda: " + sdf.format(dataVenda)
                 + "\nCliente: " + cliente.getNome()
