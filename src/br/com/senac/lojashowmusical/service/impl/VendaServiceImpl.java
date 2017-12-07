@@ -69,7 +69,7 @@ public class VendaServiceImpl implements VendaService {
             daoVenda.insert(Utils.toVendaEntity(venda));
             for (ProdutoQtd p : venda.getProdutosQtd()) {
                 Integer estoque = p.getProduto().getDescricao().getEstoque();
-                if ((estoque - p.getQuantidade()) < 0) {
+                if ((estoque - p.getQuantidade()) >= 0) {
                     daoItemProduto.insert(Utils.toItensVendaEntity(daoVenda.getLastId(), p));
                     daoProduto.updateEstoque(p.getQuantidade(), p.getProduto().getCodBarras());
                 } else {
