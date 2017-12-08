@@ -18,6 +18,7 @@ import br.com.senac.lojashowmusical.service.impl.ProdutoServiceImpl;
 import br.com.senac.lojashowmusical.service.impl.VendaServiceImpl;
 import br.com.senac.lojashowmusical.userinterface.cliente.CadastroClienteUI;
 import br.com.senac.lojashowmusical.userinterface.produto.ConsultaProdutoUI;
+import br.com.senac.lojashowmusical.validations.ValidadorVenda;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,6 +71,7 @@ public class VendasUI extends javax.swing.JFrame {
         lblNome = new javax.swing.JLabel();
         txtQtd = new javax.swing.JFormattedTextField();
         btnFechar = new javax.swing.JToggleButton();
+        btnAlterarQtd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -108,7 +110,7 @@ public class VendasUI extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -163,6 +165,13 @@ public class VendasUI extends javax.swing.JFrame {
             }
         });
 
+        btnAlterarQtd.setText("Alterar Quantidade");
+        btnAlterarQtd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarQtdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -180,6 +189,8 @@ public class VendasUI extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAlterarQtd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnRemover)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnFinalizar))
@@ -227,7 +238,8 @@ public class VendasUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFinalizar)
                     .addComponent(btnRemover)
-                    .addComponent(btnFechar)))
+                    .addComponent(btnFechar)
+                    .addComponent(btnAlterarQtd)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -250,91 +262,93 @@ public class VendasUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        if (lblNome.isVisible() && venda.getProdutosQtd().size() > 0) {
-            FinalizarVendaDialogUI dialogoFinalizar = new FinalizarVendaDialogUI(this, true);
-            venda.setPagamento(dialogoFinalizar.showDialog());
-            for (ProdutoQtd p : venda.getProdutosQtd()) {
-                venda.getPagamento().setPrecoTotalVenda(venda.getPagamento().getPrecoTotalVenda()
-                        + (p.getProduto().getDescricao().getPreco() * p.getQuantidade()));
-            }
-            venda.setDataVenda(new Date());
-            try {
-                serviceVenda.insert(venda);
-                JOptionPane.showMessageDialog(rootPane, venda.toString(), "Resumo da Venda", JOptionPane.INFORMATION_MESSAGE);
-                venda = new VendaDTO();
-                updateCarrinho();
-                txtCpf.setText("");
-                lblNome.setVisible(false);
-            } catch (VendaException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(rootPane, "Error ao concluir a venda.");
-                Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "É necessario informar o cliente e o(s) produto(s).");
+        try {
+            ValidadorVenda.validar(venda);
+        } catch (VendaException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        FinalizarVendaDialogUI dialogoFinalizar = new FinalizarVendaDialogUI(this, true);
+        venda.setPagamento(dialogoFinalizar.showDialog());
+        for (ProdutoQtd p : venda.getProdutosQtd()) {
+            venda.getPagamento().setPrecoTotalVenda(venda.getPagamento().getPrecoTotalVenda()
+                    + (p.getProduto().getDescricao().getPreco() * p.getQuantidade()));
+        }
+        venda.setDataVenda(new Date());
+        try {
+            serviceVenda.insert(venda);
+            JOptionPane.showMessageDialog(rootPane, venda.toString()
+                    .replace("[", "\n").replace("]", "")
+                    .replace(",", "\n"),
+                    "Resumo da Venda", JOptionPane.INFORMATION_MESSAGE);
+            venda = new VendaDTO();
+            updateCarrinho();
+            txtCpf.setText("");
+            lblNome.setVisible(false);
+        } catch (VendaException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error ao concluir a venda.");
+            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnCpfOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCpfOkActionPerformed
         String cpf = txtCpf.getText().replace(".", "").replace("-", "");
-        if (cpf != null && !cpf.replace("           ", "").equals("")) {
-            try {
-                venda.setCliente(this.serviceCliente.getT(cpf));
-                lblNome.setText(venda.getCliente().getNome().toUpperCase());
-                lblNome.setVisible(true);
-            } catch (ClienteException e) {
-                if (venda.getCliente() == null) {
-                    int resposta = JOptionPane.showConfirmDialog(rootPane,
-                            "Cliente não encontrador, deseja cadastrar novo?",
-                            "Não Encontrado", JOptionPane.YES_NO_OPTION);
-                    if (resposta == JOptionPane.YES_OPTION) {
-                        CadastroClienteUI novoCliente = new CadastroClienteUI();
-                        novoCliente.pack();
-                        novoCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        novoCliente.setLocationRelativeTo(null);
-                        novoCliente.setVisible(true);
-                        novoCliente.toFront();
-                    }
+        try {
+            ValidadorVenda.validarCpf(cpf);
+            venda.setCliente(this.serviceCliente.getT(cpf));
+            lblNome.setText(venda.getCliente().getNome().toUpperCase());
+            lblNome.setVisible(true);
+        } catch (ClienteException e) {
+            if (venda.getCliente() == null) {
+                int resposta = JOptionPane.showConfirmDialog(rootPane,
+                        "Cliente não encontrador, deseja cadastrar novo?",
+                        "Não Encontrado", JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    CadastroClienteUI novoCliente = new CadastroClienteUI();
+                    novoCliente.pack();
+                    novoCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    novoCliente.setLocationRelativeTo(null);
+                    novoCliente.setVisible(true);
+                    novoCliente.toFront();
                 }
-                e.printStackTrace();
-                Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, e);
             }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Necessário digitar um CPF.");
+            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, e);
+        } catch (VendaException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnCpfOkActionPerformed
 
     private void btnQtdOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQtdOkActionPerformed
-        if (!txtCodDeBarras.getText().equals("")) {
-            ProdutoQtd produto = null;
-            try {
-                produto = new ProdutoQtd(this.serviceProduto.getT(txtCodDeBarras.getText()));
-                Boolean exist = venda.getProdutosQtd().contains(produto);
-                if (exist) {
-                    JOptionPane.showMessageDialog(rootPane, "Produto já adicionado, "
-                            + "caso queira altere a quantidade no carrinho.");
-                } else {
-                    if (txtQtd.getText().equals("0") || txtQtd.getText().equals("")) {
-                        JOptionPane.showMessageDialog(rootPane, "Digite a Quantidade.");
-                    } else {
-                        produto.setQuantidade(Integer.parseInt(txtQtd.getText()));
-                        venda.getProdutosQtd().add(produto);
-                        this.updateCarrinho();
-                    }
-                }
-            } catch (ProdutoException e) {
-                e.printStackTrace();
-                if (produto == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Produto não encontrado, "
-                            + "faça uma pesquisa.");
-                }
-                Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, e);
+        String codBarras = txtCodDeBarras.getText();
+        String qtd = txtQtd.getText();
+        ProdutoQtd produto = null;
+        try {
+            ValidadorVenda.validarCodBarras(codBarras);
+            produto = new ProdutoQtd(this.serviceProduto.getT(txtCodDeBarras.getText()));
+            ValidadorVenda.validarQtd(qtd, produto.getProduto().getDescricao().getEstoque());
+            Boolean exist = venda.getProdutosQtd().contains(produto);
+            if (exist) {
+                JOptionPane.showMessageDialog(rootPane, "Produto já adicionado, "
+                        + "caso queira altere a quantidade no carrinho.");
+            } else {
+                produto.setQuantidade(Integer.parseInt(txtQtd.getText()));
+                venda.getProdutosQtd().add(produto);
+                this.updateCarrinho();
             }
             txtCodDeBarras.setText("");
             txtQtd.setText("0");
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Informe o código de barras para pesquisa.");
+        } catch (ProdutoException e) {
+            if (produto == null) {
+                JOptionPane.showMessageDialog(rootPane, "Produto não encontrado, "
+                        + "faça uma pesquisa.");
+            }
+            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, e);
+        } catch (VendaException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnQtdOkActionPerformed
 
@@ -370,7 +384,9 @@ public class VendasUI extends javax.swing.JFrame {
                     updateCarrinho();
                 } catch (ProdutoException e) {
                     e.printStackTrace();
-                    Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, e);
+                    Logger
+                            .getLogger(VendasUI.class
+                                    .getName()).log(Level.SEVERE, null, e);
                 }
             }
         } else {
@@ -388,6 +404,27 @@ public class VendasUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_tablePropertyChange
+
+    private void btnAlterarQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarQtdActionPerformed
+        AlterarQuantidadeDialogUI dialogoAlterarQtd = new AlterarQuantidadeDialogUI(this, true);
+        final int row = table.getSelectedRow();
+        Integer novaQtd = 0;
+        if (row >= 0) {
+            String codBarras = (String) table.getValueAt(row, 0);
+            novaQtd = dialogoAlterarQtd.showDialog(codBarras);
+            try {
+                ValidadorVenda.validarQtd(novaQtd.toString(),
+                        venda.getProdutosQtd().get(row).getProduto().getDescricao().getEstoque(), codBarras);
+                venda.getProdutosQtd().get(row).setQuantidade(novaQtd);
+                updateCarrinho();
+            } catch (VendaException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Selecione o produto para alterar a quantidade.");
+        }
+    }//GEN-LAST:event_btnAlterarQtdActionPerformed
 
     private void updateCarrinho() {
         Object[] linha = new Object[6];
@@ -425,16 +462,24 @@ public class VendasUI extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VendasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendasUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VendasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendasUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VendasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendasUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VendasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VendasUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -447,6 +492,7 @@ public class VendasUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterarQtd;
     private javax.swing.JToggleButton btnCpfOk;
     private javax.swing.JToggleButton btnFechar;
     private javax.swing.JButton btnFinalizar;

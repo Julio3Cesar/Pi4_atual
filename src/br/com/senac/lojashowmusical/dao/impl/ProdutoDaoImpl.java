@@ -305,7 +305,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     @Override
     public void updateEstoque(Integer qtd, String codBarras) throws SQLException {
         String sql = "UPDATE  produto SET "
-                + "QTD_EM_ESTOQUE_PRD=(QTD_EM_ESTOQUE_PRD - ?) WHERE cod_barras=?";
+                + "QTD_EM_ESTOQUE_PRD=(QTD_EM_ESTOQUE_PRD-?) WHERE cod_barras=?";
 
         try {
             this.conn = ConnectionFactory.getConnection();

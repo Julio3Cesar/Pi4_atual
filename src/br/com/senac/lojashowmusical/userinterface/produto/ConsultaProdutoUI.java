@@ -1,12 +1,14 @@
 package br.com.senac.lojashowmusical.userinterface.produto;
 
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
+import br.com.senac.lojashowmuscial.exception.VendaException;
 import br.com.senac.lojashowmusical.bean.ProdutoQtd;
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import br.com.senac.lojashowmusical.service.ProdutoService;
 import br.com.senac.lojashowmusical.service.impl.ProdutoServiceImpl;
 import br.com.senac.lojashowmusical.userinterface.venda.QuantidadeDialogUI;
 import br.com.senac.lojashowmusical.userinterface.venda.VendasUI;
+import br.com.senac.lojashowmusical.validations.ValidadorVenda;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.logging.Level;
@@ -360,11 +362,8 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
                     Integer qtd = 0;
                     do {
                         qtd = dialogo.showDialog();
-                        if (qtd == 0) {
-                            JOptionPane.showMessageDialog(rootPane, "Digite uma quantidade "
-                                    + "diferente de 0.");
-                        }
-                    } while (qtd == 0);
+                        ValidadorVenda.validarQtd(qtd.toString(), produto.getProduto().getDescricao().getEstoque());
+                    } while (qtd < 1);
                     produto.setQuantidade(qtd);
                     VendasUI.venda.getProdutosQtd().add(produto);
                 }
@@ -372,8 +371,10 @@ public class ConsultaProdutoUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Para selecionar, "
                         + "selecione um produto.");
             }
+        } catch (VendaException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+            btnSelecionarActionPerformed(evt);
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(rootPane, "Não é possível "
                     + "exibir os detalhes deste cliente.\n",
                     "Erro ao abrir detalhe", JOptionPane.ERROR_MESSAGE);

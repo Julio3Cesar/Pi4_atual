@@ -17,6 +17,7 @@ import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.service.ProdutoService;
 import br.com.senac.lojashowmusical.service.VendaService;
 import br.com.senac.lojashowmusical.util.Utils;
+import br.com.senac.lojashowmusical.validations.ValidadorVenda;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,7 @@ public class VendaServiceImpl implements VendaService {
     @Override
     public void insert(VendaDTO venda) throws VendaException {
         try {
+            ValidadorVenda.validar(venda);
             daoVenda.insert(Utils.toVendaEntity(venda));
             for (ProdutoQtd p : venda.getProdutosQtd()) {
                 Integer estoque = p.getProduto().getDescricao().getEstoque();

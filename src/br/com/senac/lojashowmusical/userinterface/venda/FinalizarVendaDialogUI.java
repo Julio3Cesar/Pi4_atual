@@ -6,7 +6,6 @@
 package br.com.senac.lojashowmusical.userinterface.venda;
 
 import br.com.senac.lojashowmusical.dto.PagamentoDTO;
-import br.com.senac.lojashowmusical.dto.VendaDTO;
 import br.com.senac.lojashowmusical.enums.TipoPagamentoEnum;
 import javax.swing.JOptionPane;
 

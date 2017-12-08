@@ -69,6 +69,8 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnFechar" min="-2" pref="87" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="btnAlterarQtd" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnRemover" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="btnFinalizar" min="-2" max="-2" attributes="0"/>
@@ -128,6 +130,7 @@
                       <Component id="btnFinalizar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnRemover" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnFechar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAlterarQtd" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -182,7 +185,7 @@
                     <Column editable="false" title="Marca" type="java.lang.Object"/>
                     <Column editable="false" title="Modelo" type="java.lang.Object"/>
                     <Column editable="false" title="Cor" type="java.lang.Object"/>
-                    <Column editable="true" title="Qtd" type="java.lang.Object"/>
+                    <Column editable="false" title="Qtd" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -283,6 +286,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAlterarQtd">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Alterar Quantidade"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlterarQtdActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
