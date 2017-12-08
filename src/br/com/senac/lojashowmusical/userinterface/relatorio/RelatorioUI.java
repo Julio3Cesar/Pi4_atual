@@ -224,16 +224,12 @@ public class RelatorioUI extends javax.swing.JFrame {
             Date dtInicial = sdf.parse(txtDtInicial.getText());
             Date dtFinal = sdf.parse(txtDtFinal.getText());
 
-            ValidadorRelatorio.validar(dtInicial, dtFinal);
             this.relatorioGeral = this.service.getRelatorioGeral(dtInicial, dtFinal);
             this.relatorioDetalhado = this.service.getRelatorioDetalhado(dtInicial, dtFinal);
             listarDados();
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(rootPane, "Digite datas válidas.");
-            Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RelatorioDataException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RelatorioException ex) {
             JOptionPane.showMessageDialog(rootPane, "Algo deu errado, entre em contato com os desenvolvedores.");

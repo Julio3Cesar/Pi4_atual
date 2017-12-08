@@ -9,8 +9,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import br.com.senac.lojashowmusical.dao.ClienteDao;
 import br.com.senac.lojashowmusical.dto.ClienteDTO;
+import br.com.senac.lojashowmusical.exception.DataException;
 import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.util.Utils;
+import br.com.senac.lojashowmusical.validations.ValidadorCliente;
 
 public class ClienteServiceImpl implements ClienteService {
 
@@ -39,10 +41,13 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public void insert(ClienteDTO cli) throws ClienteException {
         try {
+            ValidadorCliente.validar(cli);
             daoCliente.insert(Utils.toClienteEntity(cli),
                     Utils.toEnderecoEntity(cli), Utils.toContatoEntity(cli));
+        } catch (DataException ex) {
+            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ClienteException(ex.getMessage());
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -52,10 +57,13 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public void update(ClienteDTO cli) throws ClienteException {
         try {
+            ValidadorCliente.validar(cli);
             daoCliente.update(Utils.toClienteEntity(cli),
                     Utils.toEnderecoEntity(cli), Utils.toContatoEntity(cli));
+        } catch (DataException ex) {
+            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ClienteException(ex.getMessage());
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -79,7 +87,6 @@ public class ClienteServiceImpl implements ClienteService {
         try {
             return daoCliente.getT(cpf);
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -91,7 +98,6 @@ public class ClienteServiceImpl implements ClienteService {
         try {
             return daoCliente.listAll();
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -103,7 +109,6 @@ public class ClienteServiceImpl implements ClienteService {
         try {
             daoCliente.delete(id);
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -119,7 +124,6 @@ public class ClienteServiceImpl implements ClienteService {
                 return daoCliente.search(nome);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");

@@ -8,7 +8,6 @@ import br.com.senac.lojashowmuscial.exception.ClienteException;
 import br.com.senac.lojashowmusical.dto.ClienteDTO;
 import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.service.impl.ClienteServiceImpl;
-import br.com.senac.lojashowmusical.validations.ValidadorCliente;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +22,7 @@ import javax.swing.JOptionPane;
  *
  */
 public class CadastroClienteUI extends javax.swing.JFrame {
-    
+
     private final ClienteService service;
     private ClienteDTO cliente;
     private String ultimaPesquisa;
@@ -37,27 +36,27 @@ public class CadastroClienteUI extends javax.swing.JFrame {
         this.service = ClienteServiceImpl.getInstance();
         initComponents();
     }
-    
+
     public ActionEvent getUltimoEvt() {
         return ultimoEvt;
     }
-    
+
     public void setUltimoEvt(ActionEvent ultimoEvt) {
         this.ultimoEvt = ultimoEvt;
     }
-    
+
     public ClienteDTO getCliente() {
         return this.cliente;
     }
-    
+
     public void setCliente(ClienteDTO cliente) {
         this.cliente = cliente;
     }
-    
+
     public void setUltimaPesquisa(String ultimaPesquisa) {
         this.ultimaPesquisa = ultimaPesquisa;
     }
-    
+
     public String getUltimaPesquisa() {
         return ultimaPesquisa;
     }
@@ -419,19 +418,18 @@ public class CadastroClienteUI extends javax.swing.JFrame {
                     new ContatoDTO(txtTelefoneFixo.getText().replace("(", "")
                             .replace(")", "").replace("-", "").replace(" ", ""),
                             txtCelular.getText().replace("(", "")
-                            .replace(")", "").replace("-", "").replace(" ", ""), txtEmail.getText()));
-            
+                                    .replace(")", "").replace("-", "").replace(" ", ""), txtEmail.getText()));
             if (this.cliente == null) {
-                service.insert(ValidadorCliente.validar(clienteAux));
+                service.insert(clienteAux);
                 JOptionPane.showMessageDialog(rootPane, "Adicionado com sucesso!");
                 this.limpaCapos();
             } else {
                 clienteAux.setId(this.cliente.getId());
-                service.update(ValidadorCliente.validar(clienteAux));
+                service.update(clienteAux);
                 JOptionPane.showMessageDialog(rootPane, "Alterado com sucesso!");
                 moveToConsultar();
             }
-            
+
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(panelContato, "Informe uma data válida.");
             ex.printStackTrace();
@@ -441,9 +439,8 @@ public class CadastroClienteUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(panelContato, ex.getMessage());
             Logger.getLogger(CadastroClienteUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_btSalvarActionPerformed
-    
+
     private void moveToConsultar() {
         pesquisaCliente = new ConsultaClienteUI();
         pesquisaCliente.setUltimaPesquisa(ultimaPesquisa);
@@ -486,7 +483,7 @@ public class CadastroClienteUI extends javax.swing.JFrame {
             txtCelular.setText(cliente.getContato().getCelular());
             txtEmail.setText(cliente.getContato().getEmail());
             txtDtNascimento.setValue(sdf.format(cliente.getDataDeNascimento()));
-            
+
             txtBairro.setText(cliente.getEndereco().getBairro());
             txtCEP.setText(cliente.getEndereco().getCep());
             txtCidade.setText(cliente.getEndereco().getCidade());
@@ -512,7 +509,7 @@ public class CadastroClienteUI extends javax.swing.JFrame {
     private void txtCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCEPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCEPActionPerformed
-    
+
     private void limpaCapos() {
         txtNome.setText("");
         txtRg.setText("");

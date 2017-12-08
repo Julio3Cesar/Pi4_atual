@@ -8,6 +8,10 @@ import br.com.senac.lojashowmuscial.entity.RelatorioGeralEntity;
 import br.com.senac.lojashowmuscial.service.RelatorioService;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioDetalhadoDaoImpl;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioGeralDaoImpl;
+import br.com.senac.lojashowmusical.exception.DataException;
+import br.com.senac.lojashowmusical.exception.RelatorioDataException;
+import br.com.senac.lojashowmusical.validations.ValidadorData;
+import br.com.senac.lojashowmusical.validations.ValidadorRelatorio;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +35,6 @@ public class RelatorioServiceImpl implements RelatorioService {
             try {
                 RelatorioServiceImpl.service = new RelatorioServiceImpl();
             } catch (SQLException ex) {
-                ex.printStackTrace();
                 Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Algo deu errado entre em contato "
                         + "com os desenvolvedores.");
@@ -43,7 +46,11 @@ public class RelatorioServiceImpl implements RelatorioService {
     @Override
     public List<RelatorioGeralEntity> getRelatorioGeral(Date dtInicial, Date dtFinal) throws RelatorioException {
         try {
+            ValidadorRelatorio.validar(dtInicial, dtFinal);
             return daoRelatorioGeral.listBetweenDates(dtInicial, dtFinal);
+        } catch (RelatorioDataException | DataException ex) {
+            Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RelatorioException(ex.getMessage());
         } catch (SQLException ex) {
             Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new RelatorioException("Algo deu errado entre em contato "
@@ -54,7 +61,11 @@ public class RelatorioServiceImpl implements RelatorioService {
     @Override
     public List<RelatorioDetalhadoEntity> getRelatorioDetalhado(Date dtInicial, Date dtFinal) throws RelatorioException {
         try {
+            ValidadorRelatorio.validar(dtInicial, dtFinal);
             return daoRelatorioDetalhado.listBetweenDates(dtInicial, dtFinal);
+        } catch (RelatorioDataException | DataException ex) {
+            Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RelatorioException(ex.getMessage());
         } catch (SQLException ex) {
             Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new RelatorioException("Algo deu errado entre em contato "

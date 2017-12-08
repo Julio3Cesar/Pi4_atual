@@ -2,10 +2,11 @@ package br.com.senac.lojashowmusical.validations;
 
 import br.com.senac.lojashowmuscial.exception.ClienteException;
 import br.com.senac.lojashowmusical.dto.ClienteDTO;
+import br.com.senac.lojashowmusical.exception.DataException;
 
 public class ValidadorCliente {
 
-    public static ClienteDTO validar(ClienteDTO cliente) throws ClienteException {
+    public static ClienteDTO validar(ClienteDTO cliente) throws ClienteException, DataException {
 
         //Realização de  validações de negócio
         if (cliente == null) {
@@ -78,6 +79,7 @@ public class ValidadorCliente {
                     throw new ClienteException("Apenas letras são aceitas.");
                 }
             }
+            ValidadorData.validar(cliente.getDataDeNascimento());
         }
         return cliente;
     }
