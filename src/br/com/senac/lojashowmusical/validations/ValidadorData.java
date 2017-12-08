@@ -5,24 +5,20 @@ import java.util.Date;
 
 public class ValidadorData {
 
-    public static void validar(Date data) throws DataException {
-        if (data == null) {
+    public static void validar(String data) throws DataException {
+        String[] dt = data.split("/");
+        if (dt == null) {
             throw new DataException("Data inválida");
         } else {
-            Integer dia = data.getDay();
-            Integer mes = data.getMonth();
-            Integer ano = data.getYear();
+            if (Integer.parseInt(dt[0]) < 1 || Integer.parseInt(dt[0]) > 31) {
+                throw new DataException("Data inválida");
+            }
+            if (Integer.parseInt(dt[1]) < 1 || Integer.parseInt(dt[1]) > 12) {
+                throw new DataException("Data inválida");
+            }
             Date atual = new Date();
-            
-            System.out.println(atual);
-            
-            if (dia < 1 || dia > 31) {
-                throw new DataException("Data inválida");
-            }
-            if (mes < 1 || mes > 12) {
-                throw new DataException("Data inválida");
-            }
-            if (ano < 1900 || ano > atual.getYear()) {
+            int a = atual.getYear();
+            if (Integer.parseInt(dt[2]) < 1900 || Integer.parseInt(dt[2]) > atual.getYear()+1900) {
                 throw new DataException("Data inválida");
             }
         }

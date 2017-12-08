@@ -9,8 +9,10 @@ import br.com.senac.lojashowmuscial.entity.RelatorioDetalhadoEntity;
 import br.com.senac.lojashowmuscial.entity.RelatorioGeralEntity;
 import br.com.senac.lojashowmuscial.exception.RelatorioException;
 import br.com.senac.lojashowmuscial.service.RelatorioService;
+import br.com.senac.lojashowmusical.exception.DataException;
 import br.com.senac.lojashowmusical.exception.RelatorioDataException;
 import br.com.senac.lojashowmusical.service.impl.RelatorioServiceImpl;
+import br.com.senac.lojashowmusical.validations.ValidadorData;
 import br.com.senac.lojashowmusical.validations.ValidadorRelatorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -221,6 +223,8 @@ public class RelatorioUI extends javax.swing.JFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         try {
+            ValidadorData.validar(txtDtInicial.getText());
+            ValidadorData.validar(txtDtFinal.getText());
             Date dtInicial = sdf.parse(txtDtInicial.getText());
             Date dtFinal = sdf.parse(txtDtFinal.getText());
 
@@ -228,11 +232,14 @@ public class RelatorioUI extends javax.swing.JFrame {
             this.relatorioDetalhado = this.service.getRelatorioDetalhado(dtInicial, dtFinal);
             listarDados();
 
+        } catch (DataException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(rootPane, "Digite datas válidas.");
             Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RelatorioException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Algo deu errado, entre em contato com os desenvolvedores.");
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed

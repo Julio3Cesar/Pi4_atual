@@ -44,9 +44,6 @@ public class ClienteServiceImpl implements ClienteService {
             ValidadorCliente.validar(cli);
             daoCliente.insert(Utils.toClienteEntity(cli),
                     Utils.toEnderecoEntity(cli), Utils.toContatoEntity(cli));
-        } catch (DataException ex) {
-            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ClienteException(ex.getMessage());
         } catch (SQLException ex) {
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "
@@ -60,9 +57,6 @@ public class ClienteServiceImpl implements ClienteService {
             ValidadorCliente.validar(cli);
             daoCliente.update(Utils.toClienteEntity(cli),
                     Utils.toEnderecoEntity(cli), Utils.toContatoEntity(cli));
-        } catch (DataException ex) {
-            Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ClienteException(ex.getMessage());
         } catch (SQLException ex) {
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ClienteException("Algo deu errado entre em contato "

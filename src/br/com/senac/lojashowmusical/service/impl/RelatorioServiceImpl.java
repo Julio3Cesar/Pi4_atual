@@ -8,9 +8,7 @@ import br.com.senac.lojashowmuscial.entity.RelatorioGeralEntity;
 import br.com.senac.lojashowmuscial.service.RelatorioService;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioDetalhadoDaoImpl;
 import br.com.senac.lojashowmusical.dao.impl.RelatorioGeralDaoImpl;
-import br.com.senac.lojashowmusical.exception.DataException;
 import br.com.senac.lojashowmusical.exception.RelatorioDataException;
-import br.com.senac.lojashowmusical.validations.ValidadorData;
 import br.com.senac.lojashowmusical.validations.ValidadorRelatorio;
 import java.sql.SQLException;
 import java.util.Date;
@@ -48,7 +46,7 @@ public class RelatorioServiceImpl implements RelatorioService {
         try {
             ValidadorRelatorio.validar(dtInicial, dtFinal);
             return daoRelatorioGeral.listBetweenDates(dtInicial, dtFinal);
-        } catch (RelatorioDataException | DataException ex) {
+        } catch (RelatorioDataException ex) {
             Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new RelatorioException(ex.getMessage());
         } catch (SQLException ex) {
@@ -63,7 +61,7 @@ public class RelatorioServiceImpl implements RelatorioService {
         try {
             ValidadorRelatorio.validar(dtInicial, dtFinal);
             return daoRelatorioDetalhado.listBetweenDates(dtInicial, dtFinal);
-        } catch (RelatorioDataException | DataException ex) {
+        } catch (RelatorioDataException ex) {
             Logger.getLogger(RelatorioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new RelatorioException(ex.getMessage());
         } catch (SQLException ex) {

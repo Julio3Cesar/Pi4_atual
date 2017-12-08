@@ -11,11 +11,11 @@ public class ValidadorProduto {
         if (produto == null) {
             throw new NullPointerException();
         } else {
-            if (produto.getNome() == null || produto.getDescricao().equals("")) {
+            if (produto.getNome() == null || produto.getNome().equals("")) {
                 throw new ProdutoException("É necessário informar "
                         + "o nome do Produto.");
             }
-            if (produto.getMarca() == null || produto.getMarca().equals("")) {
+            if (produto.getMarca().getMarca() == null || produto.getMarca().getMarca().equals("")) {
                 throw new ProdutoException("É necessário informar "
                         + "a marca do produto.");
             }

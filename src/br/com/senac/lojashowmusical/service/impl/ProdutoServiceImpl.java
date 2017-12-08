@@ -1,6 +1,7 @@
 package br.com.senac.lojashowmusical.service.impl;
 
 import br.com.senac.lojashowmuscial.exception.ProdutoException;
+import br.com.senac.lojashowmuscial.exception.VendaException;
 import br.com.senac.lojashowmusical.dao.impl.ProdutoDaoImpl;
 import java.sql.SQLException;
 import java.util.List;
@@ -11,6 +12,8 @@ import br.com.senac.lojashowmusical.dao.ProdutoDao;
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import br.com.senac.lojashowmusical.service.ProdutoService;
 import br.com.senac.lojashowmusical.util.Utils;
+import br.com.senac.lojashowmusical.validations.ValidadorProduto;
+import br.com.senac.lojashowmusical.validations.ValidadorVenda;
 
 public class ProdutoServiceImpl implements ProdutoService {
 
@@ -38,6 +41,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void insert(ProdutoDTO p) throws ProdutoException {
         try {
+            ValidadorProduto.validar(p);
             daoProduto.insert(Utils.toProdutoEntity(p),
                     Utils.toMarcaEntity(p), Utils.toTipoProdutoEntity(p));
         } catch (SQLException ex) {
@@ -51,6 +55,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void update(ProdutoDTO p) throws ProdutoException {
         try {
+            ValidadorProduto.validar(p);
             daoProduto.update(Utils.toProdutoEntity(p),
                     Utils.toMarcaEntity(p), Utils.toTipoProdutoEntity(p));
         } catch (SQLException ex) {
@@ -128,9 +133,12 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void updateEstoque(Integer qtd, String codBarras) throws ProdutoException {
         try {
+            ValidadorVenda.validarQtd(qtd.toString(), getT(codBarras).getDescricao().getEstoque());
             daoProduto.updateEstoque(qtd, codBarras);
+        } catch (VendaException ex) {
+            Logger.getLogger(ProdutoServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ProdutoException(ex.getMessage());
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ProdutoServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");

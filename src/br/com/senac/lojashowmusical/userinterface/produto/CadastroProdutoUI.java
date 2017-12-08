@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  * @author gabri
  */
 public class CadastroProdutoUI extends javax.swing.JFrame {
-    
+
     private final ProdutoService service;
     private ProdutoDTO produto;
     private ConsultaProdutoUI pesquisaProduto;
@@ -36,27 +36,27 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
         this.service = ProdutoServiceImpl.getInstance();
         initComponents();
     }
-    
+
     public ActionEvent getUltimoEvt() {
         return ultimoEvt;
     }
-    
+
     public void setUltimoEvt(ActionEvent ultimoEvt) {
         this.ultimoEvt = ultimoEvt;
     }
-    
+
     public ProdutoDTO getProduto() {
         return produto;
     }
-    
+
     public void setProduto(ProdutoDTO produto) {
         this.produto = produto;
     }
-    
+
     public String getUltimaPesquisa() {
         return ultimaPesquisa;
     }
-    
+
     public void setUltimaPesquisa(String ultimaPesquisa) {
         this.ultimaPesquisa = ultimaPesquisa;
     }
@@ -297,15 +297,15 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
                     Integer.parseInt(txtEstoque.getText()),
                     Double.parseDouble(txtPreco.getText().replace(",", ".")),
                     txtCodBarras.getText());
-            
+
             if (this.produto == null) {
-                service.insert(ValidadorProduto.validar(produtoAux));
+                service.insert(produtoAux);
                 JOptionPane.showMessageDialog(panelProduto, "Adicionado com sucesso!");
                 this.limpaCampos();
             } else {
                 produtoAux.getDescricao().setIdDescricao(
                         this.produto.getDescricao().getIdDescricao());
-                service.update(ValidadorProduto.validar(produtoAux));
+                service.update(produtoAux);
                 JOptionPane.showMessageDialog(panelProduto, "Alterado com sucesso!");
                 moveToConsultaProduto();
             }
@@ -318,7 +318,7 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
             Logger.getLogger(CadastroProdutoUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btSalvarActionPerformed
-    
+
     private void moveToConsultaProduto() {
         pesquisaProduto = new ConsultaProdutoUI(false);
         pesquisaProduto.setUltimaPesquisa(ultimaPesquisa);
@@ -340,7 +340,7 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
             txtCor.setText(produto.getDescricao().getCor());
             txtPreco.setValue(produto.getDescricao().getPreco());
             txtEstoque.setValue(produto.getDescricao().getEstoque());
-            
+
             for (int i = 0; i < comboTipo.getItemCount(); i++) {
                 if (comboTipo.getItemAt(i).equals(produto.getTipo().getName())) {
                     comboTipo.setSelectedIndex(i);
@@ -353,7 +353,7 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
     private void txtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecoActionPerformed
-    
+
     private void limpaCampos() {
         txtProduto.setText("");
         txtMarca.setText("");

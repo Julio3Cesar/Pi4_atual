@@ -6,8 +6,10 @@ import br.com.senac.lojashowmuscial.enums.EstadoCivilEnum;
 import br.com.senac.lojashowmuscial.enums.SexoEnum;
 import br.com.senac.lojashowmuscial.exception.ClienteException;
 import br.com.senac.lojashowmusical.dto.ClienteDTO;
+import br.com.senac.lojashowmusical.exception.DataException;
 import br.com.senac.lojashowmusical.service.ClienteService;
 import br.com.senac.lojashowmusical.service.impl.ClienteServiceImpl;
+import br.com.senac.lojashowmusical.validations.ValidadorData;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -406,6 +408,7 @@ public class CadastroClienteUI extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {
+            ValidadorData.validar(txtDtNascimento.getText());
             ClienteDTO clienteAux = new ClienteDTO(txtNome.getText(),
                     txtCpf.getText().replace(".", "").replace("-", ""), txtRg.getText(),
                     SexoEnum.valueOf(comboSexo.getSelectedItem().toString()),
@@ -430,6 +433,9 @@ public class CadastroClienteUI extends javax.swing.JFrame {
                 moveToConsultar();
             }
 
+        } catch (DataException ex) {
+            JOptionPane.showMessageDialog(panelContato, ex.getMessage());
+            Logger.getLogger(CadastroClienteUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(panelContato, "Informe uma data válida.");
             ex.printStackTrace();

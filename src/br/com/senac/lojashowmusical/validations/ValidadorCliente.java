@@ -6,7 +6,7 @@ import br.com.senac.lojashowmusical.exception.DataException;
 
 public class ValidadorCliente {
 
-    public static ClienteDTO validar(ClienteDTO cliente) throws ClienteException, DataException {
+    public static ClienteDTO validar(ClienteDTO cliente) throws ClienteException {
 
         //Realização de  validações de negócio
         if (cliente == null) {
@@ -76,10 +76,9 @@ public class ValidadorCliente {
             }
             for (int i = 0; i < cliente.getEndereco().getUf().length(); i++) {
                 if (Character.isDigit(cliente.getEndereco().getUf().charAt(i))) {
-                    throw new ClienteException("Apenas letras são aceitas.");
+                    throw new ClienteException("Apenas letras são aceitas para UF.");
                 }
             }
-            ValidadorData.validar(cliente.getDataDeNascimento());
         }
         return cliente;
     }
