@@ -18,6 +18,10 @@ public class ClienteDTO {
     private EnderecoDTO endereco;
     private ContatoDTO contato;
 
+    public ClienteDTO() {
+
+    }
+
     public ClienteDTO(Integer id, EnderecoDTO endereco, ContatoDTO contato, String nome, String cpf, String rg, SexoEnum sexo, EstadoCivilEnum estadoCivil, Date dataDeNascimento) {
         this.id = id;
         this.endereco = endereco;

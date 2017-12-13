@@ -264,19 +264,14 @@ public class VendasUI extends javax.swing.JFrame {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         try {
             ValidadorVenda.validar(venda);
-        } catch (VendaException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-            Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        FinalizarVendaDialogUI dialogoFinalizar = new FinalizarVendaDialogUI(this, true);
-        venda.setPagamento(dialogoFinalizar.showDialog());
-        for (ProdutoQtd p : venda.getProdutosQtd()) {
-            venda.getPagamento().setPrecoTotalVenda(venda.getPagamento().getPrecoTotalVenda()
-                    + (p.getProduto().getDescricao().getPreco() * p.getQuantidade()));
-        }
-        venda.setDataVenda(new Date());
-        try {
+            FinalizarVendaDialogUI dialogoFinalizar = new FinalizarVendaDialogUI(this, true);
+            venda.setPagamento(dialogoFinalizar.showDialog());
+            for (ProdutoQtd p : venda.getProdutosQtd()) {
+                venda.getPagamento().setPrecoTotalVenda(venda.getPagamento().getPrecoTotalVenda()
+                        + (p.getProduto().getDescricao().getPreco() * p.getQuantidade()));
+            }
+            venda.setDataVenda(new Date());
             serviceVenda.insert(venda);
             JOptionPane.showMessageDialog(rootPane, venda.toString()
                     .replace("[", "\n").replace("]", "")
@@ -287,7 +282,7 @@ public class VendasUI extends javax.swing.JFrame {
             txtCpf.setText("");
             lblNome.setVisible(false);
         } catch (VendaException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Error ao concluir a venda.");
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             Logger.getLogger(VendasUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnFinalizarActionPerformed
@@ -357,11 +352,13 @@ public class VendasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        pesquisarProduto = new ConsultaProdutoUI(true);
-        pesquisarProduto.pack();
-        pesquisarProduto.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pesquisarProduto.setLocationRelativeTo(null);
-        pesquisarProduto.setVisible(true);
+        if (pesquisarProduto == null || !pesquisarProduto.isDisplayable()) {
+            pesquisarProduto = new ConsultaProdutoUI(true);
+            pesquisarProduto.pack();
+            pesquisarProduto.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            pesquisarProduto.setLocationRelativeTo(null);
+            pesquisarProduto.setVisible(true);
+        }
         pesquisarProduto.toFront();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 

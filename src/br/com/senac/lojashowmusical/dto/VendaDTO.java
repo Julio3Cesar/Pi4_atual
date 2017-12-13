@@ -15,7 +15,7 @@ public class VendaDTO {
 
     public VendaDTO() {
         this.produtosQtd = new ArrayList<>();
-
+        cliente = new ClienteDTO();
     }
 
     public ClienteDTO getCliente() {
