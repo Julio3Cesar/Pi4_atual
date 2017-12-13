@@ -4,8 +4,11 @@ import br.com.senac.lojashowmusical.exception.DataException;
 import java.util.Date;
 
 public class ValidadorData {
-
+    
     public static void validar(String data) throws DataException {
+        if (data.replace("/", "").replace(" ", "").equals("")) {
+            throw new DataException("Data em branco.");
+        }
         String[] dt = data.split("/");
         if (dt == null) {
             throw new DataException("Data inválida");
@@ -18,7 +21,7 @@ public class ValidadorData {
             }
             Date atual = new Date();
             int a = atual.getYear();
-            if (Integer.parseInt(dt[2]) < 1900 || Integer.parseInt(dt[2]) > atual.getYear()+1900) {
+            if (Integer.parseInt(dt[2]) < 1900 || Integer.parseInt(dt[2]) > atual.getYear() + 1900) {
                 throw new DataException("Data inválida");
             }
         }

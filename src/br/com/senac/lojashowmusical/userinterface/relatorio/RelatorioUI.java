@@ -232,14 +232,11 @@ public class RelatorioUI extends javax.swing.JFrame {
             this.relatorioDetalhado = this.service.getRelatorioDetalhado(dtInicial, dtFinal);
             listarDados();
 
-        } catch (DataException ex) {
+        } catch (DataException | RelatorioException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(rootPane, "Digite datas válidas.");
-            Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RelatorioException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             Logger.getLogger(RelatorioUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
