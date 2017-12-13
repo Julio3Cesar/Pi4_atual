@@ -45,7 +45,6 @@ public class ProdutoServiceImpl implements ProdutoService {
             daoProduto.insert(Utils.toProdutoEntity(p),
                     Utils.toMarcaEntity(p), Utils.toTipoProdutoEntity(p));
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -59,7 +58,6 @@ public class ProdutoServiceImpl implements ProdutoService {
             daoProduto.update(Utils.toProdutoEntity(p),
                     Utils.toMarcaEntity(p), Utils.toTipoProdutoEntity(p));
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -71,7 +69,6 @@ public class ProdutoServiceImpl implements ProdutoService {
         try {
             return daoProduto.getT(id);
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -83,7 +80,6 @@ public class ProdutoServiceImpl implements ProdutoService {
         try {
             return daoProduto.getT(codBarras);
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -95,7 +91,6 @@ public class ProdutoServiceImpl implements ProdutoService {
         try {
             return daoProduto.listAll();
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -107,7 +102,6 @@ public class ProdutoServiceImpl implements ProdutoService {
         try {
             daoProduto.delete(id);
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");
@@ -123,7 +117,6 @@ public class ProdutoServiceImpl implements ProdutoService {
                 return daoProduto.search(modelo);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new ProdutoException("Algo deu errado entre em contato "
                     + "com os desenvolvedores.");

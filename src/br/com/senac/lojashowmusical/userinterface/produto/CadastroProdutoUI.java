@@ -19,9 +19,6 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
     private String ultimaPesquisa;
     private ActionEvent ultimoEvt;
 
-    /**
-     * Creates new form JanelaCadastro
-     */
     public CadastroProdutoUI() {
         this.service = ProdutoServiceImpl.getInstance();
         initComponents();
@@ -114,14 +111,14 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
 
         lblEstoque.setText("Estoque");
 
-        txtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0,00"))));
+        txtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtPreco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPrecoActionPerformed(evt);
             }
         });
 
-        txtEstoque.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        txtEstoque.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         lblCodBarras.setText("Cod. Barras");
 
@@ -303,8 +300,12 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
             Logger.getLogger(CadastroProdutoUI.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(panelProduto, ex.getMessage());
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(panelProduto, "Informe o numero "
-                    + "de Estoque e o Preço.");
+            if (txtEstoque.getText().length() > 9) {
+                JOptionPane.showMessageDialog(panelProduto, "Numero "
+                        + "de Estoque inválido.");
+            } else {
+                JOptionPane.showMessageDialog(panelProduto, "Preço inválido.");
+            }
             Logger.getLogger(CadastroProdutoUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btSalvarActionPerformed
