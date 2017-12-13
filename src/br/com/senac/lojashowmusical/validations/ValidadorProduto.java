@@ -30,7 +30,6 @@ public class ValidadorProduto {
             if (produto.getDescricao().getModelo() == null || produto.getDescricao().getModelo().equals("")) {
                 throw new ProdutoException("É necessário informar "
                         + "o modelo do produto.");
-
             }
             if (produto.getDescricao().getPreco() == null || produto.getDescricao().getPreco() == 0.0) {
                 throw new ProdutoException("É necessário informar "

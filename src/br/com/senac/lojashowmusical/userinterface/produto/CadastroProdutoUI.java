@@ -5,22 +5,12 @@ import br.com.senac.lojashowmuscial.exception.ProdutoException;
 import br.com.senac.lojashowmusical.dto.ProdutoDTO;
 import br.com.senac.lojashowmusical.service.ProdutoService;
 import br.com.senac.lojashowmusical.service.impl.ProdutoServiceImpl;
-import br.com.senac.lojashowmusical.validations.ValidadorProduto;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author gabri
- */
 public class CadastroProdutoUI extends javax.swing.JFrame {
 
     private final ProdutoService service;
@@ -124,7 +114,7 @@ public class CadastroProdutoUI extends javax.swing.JFrame {
 
         lblEstoque.setText("Estoque");
 
-        txtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0,00"))));
         txtPreco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPrecoActionPerformed(evt);
